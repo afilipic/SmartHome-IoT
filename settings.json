@@ -1,0 +1,13 @@
+{
+   "DHT1": {
+        "simulated": true,
+        "pin": 17
+    },
+
+     "DL": {
+        "simulated": true,
+        "pin": 20,
+        "button_pin": 1,
+        "name": "DL"
+    }
+}
