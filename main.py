@@ -3,6 +3,7 @@ import threading
 from threading import Lock
 
 
+from components.DUS1.DUS1 import run_ultrasonic_door_sensor
 from components.DS1.ds1 import run_door_sensor
 from components.DHT.dht import run_dht
 from settings import load_settings
@@ -40,6 +41,10 @@ def options(option):
     if option == '2':
         ds1_settings = settings['DS1']
         run_door_sensor(ds1_settings, threads, stop_event)
+
+    elif option == '3':
+        dus_settings = settings['DUS']
+        run_ultrasonic_door_sensor(dus_settings, threads, stop_event)
 
     elif option == '8':
         dht1_settings = settings['DHT1']

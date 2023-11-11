@@ -2,7 +2,7 @@ import time
 import threading
 from simulators.DS1.ds1 import run_ds1_simulator
 
-def door_sensor_callback(state, print_lock):
+def door_sensor_callback(state):
     t = time.localtime()
     print("-"*20)
     print(f"Timestamp: {time.strftime('%H:%M:%S', t)}")

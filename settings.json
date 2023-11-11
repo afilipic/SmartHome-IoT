@@ -14,5 +14,10 @@
     "DS1": {
         "simulated": true,
         "pin": 23
+    },
+
+    "DUS": {
+        "simulated": true,
+        "pin": 26
     }
 }
