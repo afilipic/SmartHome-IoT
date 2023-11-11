@@ -9,5 +9,10 @@
         "pin": 20,
         "button_pin": 1,
         "name": "DL"
+    },
+
+    "DS1": {
+        "simulated": true,
+        "pin": 23
     }
 }

@@ -2,6 +2,8 @@ import sys
 import threading
 from threading import Lock
 
+
+from components.DS1.ds1 import run_door_sensor
 from components.DHT.dht import run_dht
 from settings import load_settings
 import time
@@ -35,7 +37,11 @@ def options(option):
     if option.lower() == 'x':
         sys.exit(0)
 
-    if option == '8':
+    if option == '2':
+        ds1_settings = settings['DS1']
+        run_door_sensor(ds1_settings, threads, stop_event)
+
+    elif option == '8':
         dht1_settings = settings['DHT1']
         run_dht(dht1_settings, threads, stop_event)
 

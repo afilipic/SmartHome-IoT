@@ -18,10 +18,13 @@ def generate_values(initial_temp = 25, initial_humidity=20):
 def run_dht_simulator(delay, callback, stop_event):
     # Simulate some status code, e.g., 0 for success
     code = 0
+    i = 0
     for h, t in generate_values():
         time.sleep(delay)  # Delay between readings
         # Now pass the code as well, assuming code=0 means success
         callback(h, t, code)
-        if stop_event.is_set():
+        i+= 1
+        if stop_event.is_set() or i == 5:
             break
+
               
