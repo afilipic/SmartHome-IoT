@@ -3,8 +3,8 @@ import threading
 from threading import Lock
 
 
-from components.DUS1.DUS1 import run_ultrasonic_door_sensor
-from components.DS1.ds1 import run_door_sensor
+from components.DUS.DUS1 import run_ultrasonic_door_sensor
+from components.PIR.pir import run_door_sensor,run_DPIR1,run_RPIR1,run_RPIR2
 from components.DHT.dht import run_dht
 from settings import load_settings
 import time
@@ -21,7 +21,7 @@ def menu():
     print("|  Choose sensor for simulation:  |")
     print("|---------------------------------|")
     print("| 1) DL                           |")
-    print("| 2) DS1                          |")
+    print("| 2) DUS                          |")
     print("| 3) DUS                          |")
     print("| 4) DB                           |")
     print("| 5) DPIR1                        |")
@@ -39,12 +39,20 @@ def options(option):
         sys.exit(0)
 
     if option == '2':
-        ds1_settings = settings['DS1']
+        ds1_settings = settings['DUS']
         run_door_sensor(ds1_settings, threads, stop_event)
 
     elif option == '3':
         dus_settings = settings['DUS']
         run_ultrasonic_door_sensor(dus_settings, threads, stop_event)
+
+    elif option == '5':
+        DPIR1_settings = settings['DPIR1']
+        run_DPIR1(DPIR1_settings, threads, stop_event)
+
+    elif option == '7':
+        RPIR1_settings = settings['RPIR1']
+        run_RPIR1(RPIR1_settings, threads, stop_event)
 
     elif option == '8':
         dht1_settings = settings['DHT1']

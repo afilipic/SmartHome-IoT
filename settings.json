@@ -19,5 +19,17 @@
     "DUS": {
         "simulated": true,
         "pin": 26
+    },
+    "DPIR1": {
+        "simulated": true,
+        "pin": 29
+    },
+    "RPIR1": {
+        "simulated": true,
+        "pin": 32
+    },
+    "RPIR2": {
+        "simulated": true,
+        "pin": 35
     }
 }
