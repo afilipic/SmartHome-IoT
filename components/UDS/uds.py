@@ -1,6 +1,6 @@
 import time
 import threading
-from simulators.DUS1.DUS1 import run_dus1_simulator
+from simulators.UDS.uds import run_dus_simulator
 
 def door_ultrasonic_sensor_callback(distance, print_lock):
     t = time.localtime()
@@ -9,15 +9,15 @@ def door_ultrasonic_sensor_callback(distance, print_lock):
     print("-" * 20)
     print("Distance from the door is: " + str(distance) + " centimeters.")
 
-def run_ultrasonic_door_sensor(settings, threads, stop_event):
+def run_DUS(settings, threads, stop_event):
     if settings['simulated']:
-        door_ultrasonic_sensor_thread = threading.Thread(target = run_dus1_simulator, args=(2, door_ultrasonic_sensor_callback, stop_event))
+        door_ultrasonic_sensor_thread = threading.Thread(target = run_dus_simulator, args=(2, door_ultrasonic_sensor_callback, stop_event))
         door_ultrasonic_sensor_thread.start()
         threads.append(door_ultrasonic_sensor_thread)
-        print(f"Door Sensor simulation started")
+        print(f"DUS simulation started")
     else:
         door_ultrasonic_sensor_pin = settings['pin']
-        door_ultrasonic_sensor_thread = threading.Thread(target = run_dus1_simulator, args=(2, door_ultrasonic_sensor_callback, stop_event))
+        door_ultrasonic_sensor_thread = threading.Thread(target = run_dus_simulator, args=(2, door_ultrasonic_sensor_callback, stop_event))
         door_ultrasonic_sensor_thread.start()
         threads.append(door_ultrasonic_sensor_thread)
-        print(f"Door Sensor loop started")
+        print(f"DUS loop started")

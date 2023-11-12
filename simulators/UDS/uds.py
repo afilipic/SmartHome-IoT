@@ -12,7 +12,7 @@ def generate_values_door_sensor(initial_state=400):
         yield distance
 
 
-def run_dus1_simulator(delay, callback, stop_event):
+def run_dus_simulator(delay, callback, stop_event):
     # Simulate some status code, e.g., 0 for success
     code = 0
     i = 0
