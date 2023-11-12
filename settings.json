@@ -6,9 +6,7 @@
 
      "DL": {
         "simulated": true,
-        "pin": 20,
-        "button_pin": 1,
-        "name": "DL"
+        "pin": 20
     },
 
     "DS1": {
