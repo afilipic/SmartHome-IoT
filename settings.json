@@ -29,5 +29,15 @@
     "RPIR2": {
         "simulated": true,
         "pin": 35
-    }
+    },
+  "DMS": {
+        "simulated": true,
+        "pin": 38
+    },
+  "DB": {
+    "simulated": true,
+    "pin": 41,
+    "pitch": 440,
+    "duration": 1000
+  }
 }
