@@ -4,7 +4,7 @@ from threading import Lock
 
 import keyboard
 
-from components.BUZZ.DB import run_door_buzzer
+from components.BUZZ.db import run_door_buzzer
 from components.LED.led_diode import run_dl
 from components.UDS.uds import run_DUS
 from components.PIR.pir import run_DS1,run_DPIR1,run_RPIR1,run_RPIR2
@@ -45,7 +45,7 @@ def automatic_sensors():
 
 
 if __name__ == "__main__":
-    print('Starting app')
+    print('----------Starting app--------------')
     settings = load_settings()
     threads = []
     stop_event = threading.Event()
@@ -69,7 +69,7 @@ if __name__ == "__main__":
             stop_event.clear()
             threads = []
     except KeyboardInterrupt:
-        print('Stopping app')
+        print('---------------Stopping app----------------')
         stop_event.set()
 
     for t in threads + [quit_thread]:  # Čeka da se svi tredovi završe

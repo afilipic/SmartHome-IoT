@@ -1,7 +1,7 @@
 import time
 import random
 
-def simulated_dms(delay, stop_event):
+def run_dms_simulator(delay, stop_event):
     valid_values = {"1", "2", "3", "A", "4", "5", "6", "B", "7", "8", "9", "C", "*", "0", "#", "D"}
     sensored_values = []
     while True:

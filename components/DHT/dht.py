@@ -6,20 +6,21 @@ import time
 
 def dht_callback(humidity, temperature, code):
     t = time.localtime()
-    print("-"*20)
+    print("\n--------DHT----------")
     print(f"Timestamp: {time.strftime('%H:%M:%S', t)}")
     print("-" * 20)
     print(f"Humidity: {humidity}%")
-    print(f"Temperature: {temperature}°C\n")
+    print(f"Temperature: {temperature}°C")
+    print("-" * 20 + "\n")
 
 
 def run_dht(settings, threads, stop_event):
         if settings['simulated']:
-            print("Starting RDM1 sumilator")
+            print("DHT sensor simulation started")
             dht1_thread = threading.Thread(target = run_dht_simulator, args=(2, dht_callback, stop_event))
             dht1_thread.start()
             threads.append(dht1_thread)
-            print("RDM1 sumilator started\n")
+            print("RDHT1 sensor simulation started\n")
         else:
             from sensors.DHT.RDH1 import run_dht_loop, DHT
             print("Starting dht1 loop")
