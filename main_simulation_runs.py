@@ -1,17 +1,12 @@
-import sys
 import threading
-from threading import Lock
-
 import keyboard
-
-from components.BUZZ.db import run_door_buzzer
-from components.LED.led_diode import run_dl
 from components.UDS.uds import run_DUS
-from components.PIR.pir import run_DS1,run_DPIR1,run_RPIR1,run_RPIR2
+from components.PIR.pir import run_DS1,run_DPIR1,run_RPIR1
 from components.DHT.dht import run_dht
 from settings import load_settings
 from components.MS.dms import run_dms
 import time
+from threading import Lock
 
 try:
     import RPi.GPIO as GPIO
@@ -19,26 +14,27 @@ try:
 except:
     pass
 
+lock = Lock()
 
 def automatic_sensors():
 
     ds1_settings = settings['DS1']
-    run_DS1(ds1_settings, threads, stop_event)
+    run_DS1(ds1_settings, threads, stop_event,lock)
 
     dus_settings = settings['DUS']
-    run_DUS(dus_settings, threads, stop_event)
+    run_DUS(dus_settings, threads, stop_event,lock)
 
     DPIR1_settings = settings['DPIR1']
-    run_DPIR1(DPIR1_settings, threads, stop_event)
+    run_DPIR1(DPIR1_settings, threads, stop_event,lock)
 
     DMS_settings = settings['DMS']
-    run_dms(DMS_settings, threads, stop_event)
+    run_dms(DMS_settings, threads, stop_event,lock)
 
     RPIR1_settings = settings['RPIR1']
-    run_RPIR1(RPIR1_settings, threads, stop_event)
+    run_RPIR1(RPIR1_settings, threads, stop_event,lock)
 
     dht1_settings = settings['DHT1']
-    run_dht(dht1_settings, threads, stop_event)
+    run_dht(dht1_settings, threads, stop_event,lock)
 
     for thread in threads:
         thread.join()

@@ -7,8 +7,7 @@ except:
     pass
 
 
-def \
-        run_db_simulator(stop_event, print_lock, pitch, duration):
+def run_db_simulator(stop_event, print_lock, pitch, duration):
     print(f"Press b to activate the simulated buzzer or q to quit.")
     while keyboard.is_pressed("q") == False:
         if keyboard.is_pressed("b"):

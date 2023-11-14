@@ -1,6 +1,5 @@
 import sys
 import threading
-from threading import Lock
 
 from components.BUZZ.db import run_door_buzzer
 from components.LED.led_diode import run_dl
