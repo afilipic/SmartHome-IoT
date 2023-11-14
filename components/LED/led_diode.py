@@ -15,7 +15,7 @@ def dl_callback(state, print_lock, dl):
 def run_dl(settings, threads, stop_event):
     if settings['simulated']:
         dl_pin = settings['pin']
-        dl_thread = threading.Thread(target=run_dl_simulator, args=(dl_pin, dl_callback, stop_event))
+        dl_thread = threading.Thread(target=run_dl_simulator, args=(dl_callback, stop_event))
         dl_thread.start()
         threads.append(dl_thread)
         print("Dl sumilator started")

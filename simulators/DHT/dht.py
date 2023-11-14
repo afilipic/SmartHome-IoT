@@ -24,7 +24,7 @@ def run_dht_simulator(delay, callback, stop_event):
         # Now pass the code as well, assuming code=0 means success
         callback(h, t, code)
         i+= 1
-        if stop_event.is_set() or i == 5:
+        if stop_event.is_set():
             break
 
               

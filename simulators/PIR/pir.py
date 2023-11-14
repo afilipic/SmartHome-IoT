@@ -20,6 +20,6 @@ def run_pir_simulator(delay,name, callback, stop_event):
         # Now pass the code as well, assuming code=0 means success
         callback(s,name)
         i += 1
-        if stop_event.is_set() or i == 5:
+        if stop_event.is_set():
             break
 
