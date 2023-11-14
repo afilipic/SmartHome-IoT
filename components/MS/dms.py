@@ -1,15 +1,17 @@
 import threading
-from simulators.MS.dms import simulated_dms
+
+from sensors.MS.DMS import run_dms_loop
+from simulators.MS.dms import run_dms_simulator
 
 
-def run_dms(settings, threads, stop_event):
+def run_dms(settings, threads, stop_event,lock):
     if settings['simulated']:
-        print("Starting keypad simulator")
-        keypad_thread = threading.Thread(target=simulated_dms, args=(2,stop_event))
+        print("DMS sensor simulation started")
+        keypad_thread = threading.Thread(target=run_dms_simulator, args=(2, stop_event,lock))
         keypad_thread.start()
         threads.append(keypad_thread)
     else:
         print("Starting real keypad")
-        keypad_thread = threading.Thread(target=simulated_dms, args=(stop_event,))
+        keypad_thread = threading.Thread(target=run_dms_loop, args=(stop_event,))
         keypad_thread.start()
         threads.append(keypad_thread)

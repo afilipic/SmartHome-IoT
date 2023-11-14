@@ -1,8 +1,7 @@
 import sys
 import threading
-from threading import Lock
 
-from components.BUZZ.DB import run_door_buzzer
+from components.BUZZ.db import run_door_buzzer
 from components.LED.led_diode import run_dl
 from settings import load_settings
 
@@ -17,7 +16,7 @@ def menu():
     print("|---------------------------------|")
     print("|  Choose sensor for simulation:  |")
     print("|---------------------------------|")
-    print("| 1) DUS                          |")
+    print("| 1) DL                           |")
     print("| 2) DB                           |")
     print("| Enter x to exit                 |")
     print("|---------------------------------|")

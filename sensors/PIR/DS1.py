@@ -1,4 +1,7 @@
-import RPi.GPIO as GPIO
+try:
+    import RPi.GPIO as GPIO
+except:
+    pass
 import time
 
 class DoorSensor(object):
@@ -10,7 +13,7 @@ class DoorSensor(object):
     def is_open(self):
         return GPIO.input(self.pin)
 
-def run_door_sensor_loop(sensor, callback, delay, stop_event):
+def run_ds_loop(sensor, callback, delay, stop_event):
     while True:
         door_status = sensor.is_open()
         callback(door_status)

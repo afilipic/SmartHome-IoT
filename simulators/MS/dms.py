@@ -1,16 +1,18 @@
 import time
 import random
 
-def simulated_dms(delay, stop_event):
+def run_dms_simulator(delay, stop_event,lock):
     valid_values = {"1", "2", "3", "A", "4", "5", "6", "B", "7", "8", "9", "C", "*", "0", "#", "D"}
     sensored_values = []
-    while True:
+    while not stop_event.is_set():
         generated_value = random.choice(list(valid_values))
-        print(f"Keypad button {generated_value} value sensored")
+        with lock:
+            print("--------DMS----------------------------------")
+            print(f"Keypad button {generated_value} value sensored")
+            print("-"*45,"\n")
         sensored_values.append(generated_value)
         time.sleep(delay)
-        if stop_event.is_set():
-            break
+
         '''elif key_press == 'Q':
             print("Exiting keypad simulation.")
             break
