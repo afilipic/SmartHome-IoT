@@ -16,7 +16,7 @@ def generate_values(initial_temp = 25, initial_humidity=20):
       
 
 def run_dht_simulator(delay, callback, stop_event,lock):
-    while True:
+    while not stop_event.is_set():
         code = 0
         i = 0
         for h, t in generate_values():
@@ -24,7 +24,6 @@ def run_dht_simulator(delay, callback, stop_event,lock):
             with lock:
                 callback(h, t, code)
             i+= 1
-            if stop_event.is_set():
-                break
+
 
               

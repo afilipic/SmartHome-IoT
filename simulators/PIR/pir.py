@@ -12,7 +12,7 @@ def generate_values_sensors():
 
 
 def run_pir_simulator(delay,name,sensor, callback, stop_event,lock):
-    while True:
+    while not stop_event.is_set():
         code = 0
         i = 0
         for s in generate_values_sensors():
@@ -20,6 +20,5 @@ def run_pir_simulator(delay,name,sensor, callback, stop_event,lock):
             with lock:
                 callback(s,name,sensor)
             i += 1
-            if stop_event.is_set():
-                break
+
 

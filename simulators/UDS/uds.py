@@ -13,7 +13,7 @@ def generate_values_door_sensor(initial_state=400):
 
 
 def run_dus_simulator(delay, callback, stop_event,lock):
-    while True:
+    while not stop_event.is_set():
         code = 0
         i = 0
         for d in generate_values_door_sensor():
@@ -21,5 +21,3 @@ def run_dus_simulator(delay, callback, stop_event,lock):
             with lock:
                 callback(d, code)
             i += 1
-            if stop_event.is_set():
-                break
