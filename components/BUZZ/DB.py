@@ -1,6 +1,6 @@
 import threading
 from simulators.BUZZ.db import listen_for_keypress
-
+from sensors.BUZZ.db import run_buzzer_loop
 
 def run_door_buzzer(settings, threads, stop_event,print_lock):
     pitch = settings.get('pitch', 440)
@@ -15,7 +15,7 @@ def run_door_buzzer(settings, threads, stop_event,print_lock):
     else:
         print("Starting real door buzzer")
         buzzer_pin = settings['pin']
-        buzzer_thread = threading.Thread(target=listen_for_keypress, args=(buzzer_pin, pitch, duration))
+        buzzer_thread = threading.Thread(target=run_buzzer_loop, args=(buzzer_pin, 2, 2,stop_event))
         buzzer_thread.start()
         threads.append(buzzer_thread)
         print("Real buzzer started")
