@@ -1,7 +1,9 @@
 {
    "DHT1": {
         "simulated": true,
-        "pin": 17
+        "pin": 17,
+        "runs_on": "PI1",
+        "name": "DHT1"
     },
 
      "DL": {
