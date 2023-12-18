@@ -30,6 +30,7 @@ mqtt_client.loop_start()
 def on_connect(client, userdata, flags, rc):
     client.subscribe("Temperature")
     client.subscribe("Humidity")
+    client.subscribe("Keypads")
 
 
 mqtt_client.on_connect = on_connect

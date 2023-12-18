@@ -19,7 +19,7 @@ if __name__ == "__main__":
     stop_event = threading.Event()
     try:
         dht1_settings = settings['DHT1']
-        run_dht(dht1_settings, threads, stop_event,)
+        run_dht(dht1_settings, threads, stop_event)
         while True:
             time.sleep(1)
 
