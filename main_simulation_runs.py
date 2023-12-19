@@ -27,14 +27,14 @@ def automatic_sensors():
     DPIR1_settings = settings['DPIR1']
     run_DPIR1(DPIR1_settings, threads, stop_event,lock)
 
-    DMS_settings = settings['DMS']
-    run_dms(DMS_settings, threads, stop_event,lock)
+    #DMS_settings = settings['DMS']
+    #run_dms(DMS_settings, threads, stop_event,lock)
 
     RPIR1_settings = settings['RPIR1']
     run_RPIR1(RPIR1_settings, threads, stop_event,lock)
 
     dht1_settings = settings['DHT1']
-    run_dht(dht1_settings, threads, stop_event,lock)
+    run_dht(dht1_settings, threads, stop_event)
 
     for thread in threads:
         thread.join()

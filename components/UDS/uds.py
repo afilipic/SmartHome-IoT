@@ -6,11 +6,11 @@ from simulators.UDS.uds import run_dus_simulator
 
 def door_ultrasonic_sensor_callback(distance, print_lock):
     t = time.localtime()
-    print("\n--------UDS----------------------------------")
-    print(f"Timestamp: {time.strftime('%H:%M:%S', t)}")
-    print("-" * 45)
-    print("Distance from the door is: " + str(distance) + " centimeters.")
-    print("-" * 45 + "\n")
+    #print("\n--------UDS----------------------------------")
+    #print(f"Timestamp: {time.strftime('%H:%M:%S', t)}")
+    #print("-" * 45)
+    #print("Distance from the door is: " + str(distance) + " centimeters.")
+    #qprint("-" * 45 + "\n")
 
 def run_DUS(settings, threads, stop_event,lock):
     if settings['simulated']:
