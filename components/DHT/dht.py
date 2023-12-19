@@ -68,14 +68,6 @@ publisher_thread.start()
 def dht_callback(humidity, temperature, publish_event, dht_settings, code="DHTLIB_OK", verbose=False):
     global publish_data_counter, publish_data_limit
 
-    if verbose:
-        t = time.localtime()
-        print("="*20)
-        print(f"Timestamp: {time.strftime('%H:%M:%S', t)}")
-        print(f"Code: {code}")
-        print(f"Humidity: {humidity}%")
-        print(f"Temperature: {temperature}°C")
-
     temp_payload = {
         "measurement": "Temperature",
         "simulated": dht_settings['simulated'],

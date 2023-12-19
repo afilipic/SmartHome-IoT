@@ -46,12 +46,12 @@ def publisher_task(event, ms_batch):
 
 
 publish_event = threading.Event()
-publisher_thread = threading.Thread(target=publisher_task, args=(publish_event, dht_batch,))
+publisher_thread = threading.Thread(target=publisher_task, args=(publish_event, dms_batch,))
 publisher_thread.daemon = True
 publisher_thread.start()
 
 
-def dms_callback(publish_event, dms_settings, code, verbose=False):
+def dms_callback(stop_event, dms_settings, publish_event, code):
     global publish_data_counter, publish_data_limit
 
 
@@ -71,7 +71,7 @@ def dms_callback(publish_event, dms_settings, code, verbose=False):
         publish_event.set()
 
 
-def run_dht(settings, threads, stop_event):
+def run_dms(settings, threads, stop_event):
     if settings['simulated']:
         print("Starting dms sumilator")
         dms_thread = threading.Thread(target = run_dms_simulator, args=(2, dms_callback, stop_event, publish_event, settings))
