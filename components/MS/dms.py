@@ -51,7 +51,7 @@ publisher_thread.daemon = True
 publisher_thread.start()
 
 
-def dms_callback(publish_event, dms_settings, code, verbose=False):
+def dms_callback(stop_event, dms_settings, publish_event, code):
     global publish_data_counter, publish_data_limit
 
 

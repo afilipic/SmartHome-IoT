@@ -20,7 +20,9 @@
 
     "DUS": {
         "simulated": true,
-        "pin": 26
+        "pin": 26,
+        "runs_on": "PI1",
+        "name": "DUS"
     },
     "DPIR1": {
         "simulated": true,
@@ -42,7 +44,9 @@
     },
   "DMS": {
         "simulated": true,
-        "pin": 38
+        "pin": 38,
+        "runs_on": "PI1",
+        "name": "DMS"
     },
   "DB": {
     "simulated": true,
