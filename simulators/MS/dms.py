@@ -1,7 +1,7 @@
 import time
 import random
 
-def run_dms_simulator( delay,dms_callback, stop_event, publish_event, settings):
+def run_dms_simulator( delay,dms_callback, stop_event, publish_event, settings,lock):
 
     while True:
         if stop_event.is_set():
@@ -16,6 +16,5 @@ def run_dms_simulator( delay,dms_callback, stop_event, publish_event, settings):
         sensored_values.append('#')
 
         if sensored_values:
-
             code = ", ".join(sensored_values)
             dms_callback(stop_event, settings, publish_event, code)

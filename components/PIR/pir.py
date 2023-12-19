@@ -1,25 +1,3 @@
-'''
-import time
-import threading
-
-from sensors.PIR.DPIR1 import run_dpir_loop
-from sensors.PIR.DS1 import run_ds_loop
-from sensors.PIR.RPIR1 import run_rpir1_loop
-from sensors.PIR.RPIR2 import run_rpir2_loop
-from simulators.PIR.pir import run_pir_simulator
-
-def door_sensor_callback(state,name,sensor):
-    t = time.localtime()
-    print("\n--------"+sensor+"--------------------------------")
-    print(f"Timestamp: {time.strftime('%H:%M:%S', t)}")
-    print("-" * 45 )
-    if(state == 1):
-        print(name + "sensor is detecting something")
-    if(state == 0):
-        print(name + "sensor is detecting nothing")
-    print("-" * 45 + "\n")
-'''
-from simulators.DHT.dht import run_dht_simulator
 import threading
 import time
 import json

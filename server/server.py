@@ -14,7 +14,7 @@ app = Flask(__name__)
 
 
 # InfluxDB Configuration
-token = "aMqlANBnsxVntGrmYdXMQLfJL2NicBTuTswQ12dqtQBdqgvAqFA2udJsjE0_o8IzFCSVi3ZHJIWXTXWIEeomNQ=="
+token = "k4o8BCNMNkpunRxoqaE_tHn3XeQToeZSO52gLMiRyBILgdz4XQh3PiOc-AWC6d0Na9YzTzV1cz3S5R8tRPL2Ag=="
 org = "FTN"
 url = "http://localhost:8086"
 bucket = "example_db"
@@ -37,7 +37,7 @@ def on_connect(client, userdata, flags, rc):
     client.subscribe("Keypads")
     client.subscribe("Distance")
     client.subscribe("Door Buzzer")
-
+    client.subscribe("Led Diode")
 
 mqtt_client.on_connect = on_connect
 mqtt_client.on_message = lambda client, userdata, msg: save_to_db(json.loads(msg.payload.decode('utf-8')))

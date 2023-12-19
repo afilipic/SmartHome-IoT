@@ -8,7 +8,9 @@
 
      "DL": {
         "simulated": true,
-        "pin": 20
+        "pin": 20,
+        "runs_on": "PI1",
+        "name": "DL"
     },
 
     "DS1": {

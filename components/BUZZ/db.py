@@ -57,13 +57,13 @@ def door_buzzer_callback(publish_event, db_settings, code="DBLIB_OK", verbose=Fa
     if publish_data_counter >= publish_data_limit:
         publish_event.set()
 
-def run_door_buzzer(settings, threads, stop_event,print_lock):
+def run_door_buzzer(settings, threads, stop_event):
     pitch = settings.get('pitch', 440)
     duration = settings.get('duration', 1)
 
     if settings['simulated']:
         print("Starting door buzzer simulator")
-        buzzer_thread = threading.Thread(target=run_db_simulator, args=(settings,publish_event,door_buzzer_callback,stop_event, print_lock, pitch, duration))
+        buzzer_thread = threading.Thread(target=run_db_simulator, args=(settings,publish_event,door_buzzer_callback,stop_event, pitch, duration))
         buzzer_thread.start()
         threads.append(buzzer_thread)
         print("Buzzer simulator started")
