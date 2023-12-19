@@ -1,6 +1,6 @@
 import threading
 import keyboard
-from components.UDS.uds import run_DUS
+#from components.UDS.uds import run_DUS
 from components.PIR.pir import run_DS1,run_DPIR1,run_RPIR1
 from components.DHT.dht import run_dht
 from settings import load_settings
@@ -22,7 +22,7 @@ def automatic_sensors():
     run_DS1(ds1_settings, threads, stop_event,lock)
 
     dus_settings = settings['DUS']
-    run_DUS(dus_settings, threads, stop_event,lock)
+    #run_DUS(dus_settings, threads, stop_event,lock)
 
     DPIR1_settings = settings['DPIR1']
     run_DPIR1(DPIR1_settings, threads, stop_event,lock)

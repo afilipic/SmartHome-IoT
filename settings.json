@@ -52,6 +52,8 @@
     "simulated": true,
     "pin": 41,
     "pitch": 440,
-    "duration": 1000
+    "duration": 1000,
+    "runs_on": "PI1",
+    "name": "DB"
   }
 }

@@ -65,7 +65,7 @@ def door_sensor_callback(state, publish_event, pir_settings, code="PIRLIB_OK", v
         print("="*20)
         print(f"Timestamp: {time.strftime('%H:%M:%S', t)}")
         print(f"Code: {code}")
-        print(f"Temperature: {state}°C")
+        print(f"value: {state}")
 
     temp_payload = {
         "measurement": "Sensor",
@@ -101,7 +101,7 @@ def run_DPIR1(settings, threads, stop_event,lock):
     sensor = "DPIR1"
     name = "Door motion "
     if settings['simulated']:
-        door_sensor_thread = threading.Thread(target = run_pir_simulator, args=(settings, door_sensor_callback,publish_event, stop_event,lock))
+        door_sensor_thread = threading.Thread(target = run_pir_simulator, args=(settings,publish_event, door_sensor_callback, stop_event,lock))
         door_sensor_thread.start()
         threads.append(door_sensor_thread)
         print(f"DPIR1 sensor simulation started")
