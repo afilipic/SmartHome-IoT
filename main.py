@@ -36,7 +36,7 @@ def options(option):
 
     elif option == '2':
         DB_settings = settings['DB']
-        run_door_buzzer(DB_settings, threads, stop_event,print_lock=0)
+        run_door_buzzer(DB_settings, threads, stop_event)
 
     else:
         print("Invalid input")

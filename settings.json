@@ -1,43 +1,61 @@
 {
    "DHT1": {
         "simulated": true,
-        "pin": 17
+        "pin": 17,
+        "runs_on": "PI1",
+        "name": "DHT1"
     },
 
      "DL": {
         "simulated": true,
-        "pin": 20
+        "pin": 20,
+        "runs_on": "PI1",
+        "name": "DL"
     },
 
     "DS1": {
         "simulated": true,
-        "pin": 23
+        "pin": 23,
+        "runs_on": "PI1",
+        "name": "DS1"
     },
 
     "DUS": {
         "simulated": true,
-        "pin": 26
+        "pin": 26,
+        "runs_on": "PI1",
+        "name": "DUS"
     },
     "DPIR1": {
         "simulated": true,
-        "pin": 29
+        "pin": 29,
+        "runs_on": "PI1",
+        "name": "DPIR1"
     },
     "RPIR1": {
         "simulated": true,
-        "pin": 32
+        "pin": 32,
+        "runs_on": "PI1",
+        "name": "RPIR1"
     },
     "RPIR2": {
         "simulated": true,
-        "pin": 35
+        "pin": 35,
+        "runs_on": "PI1",
+        "name": "RPIR2"
     },
   "DMS": {
         "simulated": true,
-        "pin": 38
+        "pin": 38,
+        "runs_on": "PI1",
+        "name": "DMS"
     },
   "DB": {
     "simulated": true,
     "pin": 41,
     "pitch": 440,
-    "duration": 1000
+    "duration": 1000,
+    "runs_on": "PI1",
+    "name": "DB"
   }
 }

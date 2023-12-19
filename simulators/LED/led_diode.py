@@ -1,24 +1,14 @@
-
 import time
+import keyboard
 
-import keyboard as keyboard
-
-
-def run_dl_simulator(callback, stop_event):
-    print("Press x to turn on light, y to turn off the light or q to quit.")
-    light_state = "OFF"
-    while keyboard.is_pressed("q") == False:
-        if keyboard.is_pressed("x") and light_state == "ON":
-            print("Light is already on!")
-            time.sleep(0.2)
-        elif keyboard.is_pressed("x") and light_state == "OFF":
-            light_state = "ON"
-            print("Light is now on!")
-            time.sleep(0.2)
-        elif keyboard.is_pressed("y") and light_state == "OFF":
-            print("Light is already off!")
-            time.sleep(0.2)
-        elif keyboard.is_pressed("y") and light_state == "ON":
-            light_state = "OFF"
-            print("Light is now off!")
-            time.sleep(0.2)
+def run_dl_simulator(settings, publish_event, dl_callback, stop_event):
+    print("Press 'l' to toggle the LED state or 'q' to quit.")
+    while not stop_event.is_set():
+        if keyboard.is_pressed('l'):
+            print("Led activated!")
+            dl_callback(publish_event, settings)
+            time.sleep(0.5)  # Debounce delay
+        elif keyboard.is_pressed('q'):
+            print("Quitting LED simulator...")
+            stop_event.set()
+        time.sleep(0.1)

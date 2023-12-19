@@ -11,14 +11,14 @@ def generate_values_sensors():
         yield state
 
 
-def run_pir_simulator(delay,name,sensor, callback, stop_event,lock):
+def run_pir_simulator(settings,publish_event, callback, stop_event,lock):
+    delay = 2
     while not stop_event.is_set():
-        code = 0
         i = 0
         for s in generate_values_sensors():
             time.sleep(delay)
             with lock:
-                callback(s,name,sensor)
+                callback(s,publish_event,settings)
             i += 1
 
 

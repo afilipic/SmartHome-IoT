@@ -1,26 +1,20 @@
 import time
 import random
 
-def run_dms_simulator(delay, stop_event,lock):
-    valid_values = {"1", "2", "3", "A", "4", "5", "6", "B", "7", "8", "9", "C", "*", "0", "#", "D"}
-    sensored_values = []
-    while not stop_event.is_set():
-        generated_value = random.choice(list(valid_values))
-        with lock:
-            print("--------DMS----------------------------------")
-            print(f"Keypad button {generated_value} value sensored")
-            print("-"*45,"\n")
-        sensored_values.append(generated_value)
-        time.sleep(delay)
+def run_dms_simulator( delay,dms_callback, stop_event, publish_event, settings,lock):
 
-        '''elif key_press == 'Q':
-            print("Exiting keypad simulation.")
+    while True:
+        if stop_event.is_set():
             break
-        else:
-            print("Invalid button. Please press a valid button.")
-            
-    if sensored_values:
-        print("Buttons sensored during the simulation:")
-        print(", ".join(sensored_values))
-    else:
-        print("No buttons were pressed during the simulation.")'''
+        valid_values = {"1", "2", "3", "A", "4", "5", "6", "B", "7", "8", "9", "C", "*", "0", "D"}
+        sensored_values = []
+
+        for _ in range(5):
+            simulated_key_press = random.choice(list(valid_values))
+            sensored_values.append(simulated_key_press)
+            time.sleep(delay)
+        sensored_values.append('#')
+
+        if sensored_values:
+            code = ", ".join(sensored_values)
+            dms_callback(stop_event, settings, publish_event, code)
