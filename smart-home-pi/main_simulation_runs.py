@@ -3,6 +3,7 @@ import keyboard
 from components.PI1.UDS.uds import run_dus
 from components.PI1.PIR.pir import run_DS1, run_DPIR1, run_RPIR1, run_DPIR2, run_RPIR2, run_RPIR3, run_RPIR4
 from components.PI1.DHT.dht import run_dht
+from components.PI3.B4SD.b4sd import run_b4sd
 from settings import load_settings
 from components.PI1.MS.dms import run_dms
 import time
@@ -68,7 +69,7 @@ def automatic_sensors():
     #DMS (kaypads)
     dms_settings = settings['DMS']
     run_dms(dms_settings, threads, stop_event,lock)
-    
+
 
     #DUS (distance)
     dus1_settings = settings['DUS1']
@@ -76,6 +77,11 @@ def automatic_sensors():
 
     dus2_settings = settings['DUS2']
     run_dus(dus2_settings, threads, stop_event, lock)
+
+    #B4SD(time)
+    b4sd_settings = settings['B4SD']
+    run_b4sd(b4sd_settings, threads, stop_event, lock)
+
 
     for thread in threads:
         thread.join()

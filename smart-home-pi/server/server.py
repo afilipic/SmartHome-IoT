@@ -14,7 +14,7 @@ app = Flask(__name__)
 
 
 # InfluxDB Configuration
-token = "kM0SXKjMTVckODgt0p39ku4wZxBa_oNAZgAzkQIprfNvegTp-vJYBiWvq_7DifKbApXEv8u7Tpgxleis5xdHng=="
+token = "k4o8BCNMNkpunRxoqaE_tHn3XeQToeZSO52gLMiRyBILgdz4XQh3PiOc-AWC6d0Na9YzTzV1cz3S5R8tRPL2Ag=="
 org = "FTN"
 url = "http://localhost:8086"
 bucket = "example_db"
@@ -35,6 +35,7 @@ def on_connect(client, userdata, flags, rc):
     client.subscribe("Sensor RPIR1")
     client.subscribe("Sensor RPIR2")
     client.subscribe("Keypads")
+    client.subscribe("Time")
     client.subscribe("Distance")
     client.subscribe("Door Buzzer")
     client.subscribe("Led Diode")
