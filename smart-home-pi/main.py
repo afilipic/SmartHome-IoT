@@ -1,8 +1,8 @@
 import sys
 import threading
 
-from components.BUZZ.db import run_door_buzzer
-from components.LED.led_diode import run_dl
+from components.PI1.BUZZ.db import run_door_buzzer
+from components.PI1.LED.led_diode import run_dl
 from settings import load_settings
 
 try:
