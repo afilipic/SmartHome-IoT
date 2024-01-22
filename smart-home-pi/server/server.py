@@ -30,7 +30,7 @@ mqtt_client.loop_start()
 def on_connect(client, userdata, flags, rc):
     client.subscribe("Temperature")
     client.subscribe("Humidity")
-    client.subscribe("Sensor DS1")
+    client.subscribe("Door Sensor")
     client.subscribe("Sensor DPIR1")
     client.subscribe("Sensor RPIR1")
     client.subscribe("Sensor RPIR2")
@@ -38,6 +38,7 @@ def on_connect(client, userdata, flags, rc):
     client.subscribe("Distance")
     client.subscribe("Door Buzzer")
     client.subscribe("Led Diode")
+    client.subscribe("GYRO")
 
 mqtt_client.on_connect = on_connect
 mqtt_client.on_message = lambda client, userdata, msg: save_to_db(json.loads(msg.payload.decode('utf-8')))
@@ -46,12 +47,13 @@ mqtt_client.on_message = lambda client, userdata, msg: save_to_db(json.loads(msg
 def save_to_db(data):
     write_api = influxdb_client.write_api(write_options=SYNCHRONOUS)
     timestamp = datetime.fromisoformat(data["timestamp"]) if "timestamp" in data else datetime.utcnow()
+    print(data)
     point = (
         Point(data["measurement"])
         .tag("simulated", data["simulated"])
         .tag("runs_on", data["runs_on"])
         .tag("name", data["name"])
-        .field("measurement", data["value"])
+        .field("measurement", data["value"])  # Ovo je ispravka
         .time(timestamp)
     )
     print(point)
@@ -107,3 +109,4 @@ def home():
 
 if __name__ == '__main__':
     app.run(debug=True)
+

@@ -62,6 +62,12 @@
         "name": "Door Ultrasonic Sensor 2",
         "runs_on" : "PI2"
     },
+    "GYRO" : {
+        "simulated" : true,
+        "pin" : 17,
+        "name" : "Garage Gyroscope",
+        "runs_on" : "PI2"
+    },
     "RPIR1" : {
         "simulated" : true,
         "pin" : 17,

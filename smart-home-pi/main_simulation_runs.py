@@ -3,6 +3,7 @@ import keyboard
 from components.PI1.UDS.uds import run_dus
 from components.PI1.PIR.pir import run_DS1, run_DPIR1, run_RPIR1, run_DPIR2, run_RPIR2, run_RPIR3, run_RPIR4
 from components.PI1.DHT.dht import run_dht
+from components.PI1.GYRO.gyro import run_gyro
 from settings import load_settings
 from components.PI1.MS.dms import run_dms
 import time
@@ -46,7 +47,9 @@ def automatic_sensors():
     RPIR4_settings = settings['RPIR4']
     run_RPIR4(RPIR4_settings, threads, stop_event, lock)
 
-
+    #GYROSCOPE
+    gyro_settings = settings['GYRO']
+    run_gyro(gyro_settings, threads, stop_event, lock)
 
     #DHT (temperature)
     dht1_settings = settings['DHT1']

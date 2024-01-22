@@ -2,13 +2,13 @@ import threading
 import time
 import json
 import paho.mqtt.publish as publish
-
+from simulators.BUTTONS.ds import run_ds_simulator
 HOSTNAME = "localhost"
 PORT = 1883
 
 ds_batch = []
 publish_data_counter = 0
-publish_data_limit = 1
+publish_data_limit = 4
 counter_lock = threading.Lock()
 
 
@@ -31,7 +31,7 @@ publisher_thread.daemon = True
 publisher_thread.start()
 
 
-def door_sensor_callback(publish_event, ds_settings,value, code="DSLIB_OK", verbose=False):
+def door_sensor_callback(publish_event, ds_settings,valueSensor, code="DSLIB_OK", verbose=False):
     global publish_data_counter, publish_data_limit
 
     if verbose:
@@ -46,8 +46,9 @@ def door_sensor_callback(publish_event, ds_settings,value, code="DSLIB_OK", verb
         "simulated": ds_settings['simulated'],
         "runs_on": ds_settings["runs_on"],
         "name": ds_settings["name"],
-        "value": value
+        "value": valueSensor
     }
+    #print(temp_payload)
 
     with counter_lock:
         ds_batch.append(("Door Sensor", json.dumps(temp_payload), 0, True))
@@ -56,15 +57,13 @@ def door_sensor_callback(publish_event, ds_settings,value, code="DSLIB_OK", verb
     if publish_data_counter >= publish_data_limit:
         publish_event.set()
 
-def run_door_buzzer(settings, threads, stop_event):
-    pitch = settings.get('pitch', 440)
-    duration = settings.get('duration', 1)
+def run_door_sensor(settings, threads, stop_event):
 
     if settings['simulated']:
         print("Starting door buzzer simulator")
-        #buzzer_thread = threading.Thread(target=run_db_simulator, args=(settings,publish_event,door_buzzer_callback,stop_event, pitch, duration))
-        #buzzer_thread.start()
-        #threads.append(buzzer_thread)
+        buzzer_thread = threading.Thread(target=run_ds_simulator, args=(settings,publish_event,door_sensor_callback,stop_event))
+        buzzer_thread.start()
+        threads.append(buzzer_thread)
         print("Buzzer simulator started")
     else:
         print("Starting real door buzzer")

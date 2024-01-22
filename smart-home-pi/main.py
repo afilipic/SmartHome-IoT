@@ -3,6 +3,7 @@ import threading
 
 from components.PI1.BUZZ.db import run_door_buzzer
 from components.PI1.LED.led_diode import run_dl
+from components.BUTTONS.ds import run_door_sensor
 from settings import load_settings
 
 try:
@@ -18,6 +19,7 @@ def menu():
     print("|---------------------------------|")
     print("| 1) DL                           |")
     print("| 2) DB                           |")
+    print("| 3) DS                           |")
     print("| Enter x to exit                 |")
     print("|---------------------------------|")
     option = input("| Input number:").strip()
@@ -37,6 +39,11 @@ def options(option):
     elif option == '2':
         DB_settings = settings['DB']
         run_door_buzzer(DB_settings, threads, stop_event)
+
+    elif option == '3':
+        DS_settings = settings['DS1']
+        run_door_sensor(DS_settings, threads, stop_event)
+
 
     else:
         print("Invalid input")
