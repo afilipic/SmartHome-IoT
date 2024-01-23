@@ -13,7 +13,7 @@ export default function DeviceDetailsPage() {
     return (
         <StyledPage>
             <TopSection>
-            <h2>Dashboard for Device Type: {deviceId}</h2>
+            <h2></h2>
             {dashboardUrl ? (
                 <GrafanaPanel url={dashboardUrl} />
             ) : (

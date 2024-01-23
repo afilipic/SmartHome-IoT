@@ -49,14 +49,14 @@ export const navbarTitle = "Smart Home";
 
 
   export const urls = [
-    {type: "DHT", url: "http://localhost:3000/d/a144c6c1-3619-4fc7-9881-3a2e06fb2891/dht?orgId=1&from=1703866574605&to=1703888174605"},
-    {type: "PIR", url: "http://localhost:3000/d/ec447d9e-a63b-466e-a8d7-532312972770/pir?orgId=1&from=1703877507185&to=1703888307185"},
-    {type: "DUS", url: "http://localhost:3000/d/c421b301-67d0-474c-9fa4-18c7b0dee2e1/dus?orgId=1&from=1703868109124&to=1703889709124"},
-    {type: "DS", url: "http://localhost:3000/d/ad995c1e-b01b-459d-8986-08e4dd22cca8/door-sensor?orgId=1&from=1703885970494&to=1703889570495"},
-    {type: "DL", url: ""},
+    {type: "DHT", url: ""},
+    {type: "PIR", url: ""},
+    { type: "DUS", url: "http://localhost:3000/d/e19f86a9-66db-4f92-adc4-a20c2a76738c/iot?orgId=1&refresh=1d&from=1706022524897&to=1706022824898&viewPanel=5"},
+    { type: "DS", url: "http://localhost:3000/d/e19f86a9-66db-4f92-adc4-a20c2a76738c/iot?orgId=1&refresh=1d"},
+    { type: "DL", url: ""},
     {type: "LCD", url: ""},
     {type: "GYRO", url: ""},
-    {type: "RGB", url: "http://localhost:3000/d/d47c1e8a-ec21-4eb5-a0e9-01a901383f5a/rgb?orgId=1&from=1703886145925&to=1703889745925"},
+    { type: "RGB", url: "" },
     {type: "IR", url: ""},
     {type: "4SG", url: ""},
     {type: "MS", url: ""},
