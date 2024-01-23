@@ -1,9 +1,9 @@
 import threading
-import time
+from datetime import datetime
 import json
 import paho.mqtt.publish as publish
-from simulators.PI1.GYRO.gyro import run_gyroscope_simulator
 from broker_settings import HOSTNAME, PORT
+from simulators.PI1.GYRO.gyro import simulated_gyro
 
 
 gyro_batch = []
@@ -17,10 +17,10 @@ def publisher_task(event, gyro_batch):
     while True:
         event.wait()
         with counter_lock:
-            local_gyro_batch = gyro_batch.copy()
+            local_pir_batch = gyro_batch.copy()
             publish_data_counter = 0
             gyro_batch.clear()
-        publish.multiple(local_gyro_batch, hostname=HOSTNAME, port=PORT)
+        publish.multiple(local_pir_batch, hostname=HOSTNAME, port=PORT)
         print(f'published {publish_data_limit} gyro values')
         event.clear()
 
@@ -31,36 +31,47 @@ publisher_thread.daemon = True
 publisher_thread.start()
 
 
-def gyro_callback( temperature, publish_event, dht_settings, code="GYROLIB_OK", verbose=False):
+def gyro_callback(settings, publish_event, gyro, accel):
     global publish_data_counter, publish_data_limit
 
-    temp_payload = {
+    current_time = datetime.utcnow().isoformat()
+    gyro_payload = {
         "measurement": "GYRO",
-        "simulated": dht_settings['simulated'],
-        "runs_on": dht_settings["runs_on"],
-        "name": dht_settings["name"],
-        "value": temperature
+        "simulated": settings['simulated'],
+        "runs_on": settings["runs_on"],
+        "name": settings["name"],
+        "value": gyro,
+        "timestamp": current_time
+    }
+    accel_payload = {
+        "measurement": "Accelerometer",
+        "simulated": settings['simulated'],
+        "runs_on": settings["runs_on"],
+        "name": settings["name"],
+        "value": accel,
+        "timestamp": current_time
     }
 
     with counter_lock:
-        gyro_batch.append(('GYRO', json.dumps(temp_payload), 0, True))
+        gyro_batch.append(('Gyroscope', json.dumps(gyro_payload), 0, True))
+        gyro_batch.append(('Gyroscope', json.dumps(accel_payload), 0, True))
+
         publish_data_counter += 1
 
     if publish_data_counter >= publish_data_limit:
         publish_event.set()
 
 
-def run_gyro(settings, threads, stop_event,lock):
-    sensor = "Gyroscope"
-    name = "Gyroscope "
+def run_gyro(settings, threads, stop_event, print_lock, alarm_event):
     if settings['simulated']:
-        door_sensor_thread = threading.Thread(target = run_gyroscope_simulator, args=(settings,publish_event, gyro_callback, stop_event,lock))
-        door_sensor_thread.start()
-        threads.append(door_sensor_thread)
-        print(f"Gyroscope sensor simulation started")
+        gyro_thread = threading.Thread(target=simulated_gyro,
+                                       args=(print_lock, stop_event, settings, publish_event, gyro_callback, alarm_event))
+        gyro_thread.start()
+        threads.append(gyro_thread)
     else:
-        door_pin = settings['pin']
-        #door_sensor_thread = threading.Thread(target = run_ds_loop, args=(settings,publish_event, door_sensor_callback, stop_event))
-        #door_sensor_thread.start()
-        #threads.append(door_sensor_thread)
-        print(f"DS1 sensor loop started")
+        #from sensors.GYRO.GRG import run_gyro_loop
+        #gyro_thread = threading.Thread(target=run_gyro_loop,
+        #                               args=(print_lock, stop_event, settings, publish_event, gyro_callback, alarm_event))
+        #gyro_thread.start()
+        #threads.append(gyro_thread))
+        print("tralalala")

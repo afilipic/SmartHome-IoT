@@ -6,8 +6,10 @@ from components.PI1.DHT.dht import run_dht
 from components.PI1.GYRO.gyro import run_gyro
 from settings import load_settings
 from components.PI1.MS.dms import run_dms
+from components.PI1.LCD.lcd import run_lcd
 import time
 from threading import Lock
+from queue import Queue
 
 try:
     import RPi.GPIO as GPIO
@@ -16,6 +18,12 @@ except:
     pass
 
 lock = Lock()
+
+
+alarm_event = threading.Event()
+
+print_lock = threading.Lock()
+gdht_queue = Queue()
 
 def automatic_sensors():
 
@@ -27,6 +35,9 @@ def automatic_sensors():
     run_DS1(ds2_settings, threads, stop_event, lock)
 
 
+    # LCD
+    glcd_settings = settings["GLCD"]
+    run_lcd(glcd_settings, threads, stop_event, print_lock, gdht_queue)
 
     #PIR (sensors)
     DPIR1_settings = settings['DPIR1']
@@ -49,7 +60,7 @@ def automatic_sensors():
 
     #GYROSCOPE
     gyro_settings = settings['GYRO']
-    run_gyro(gyro_settings, threads, stop_event, lock)
+    run_gyro(gyro_settings, threads, stop_event, lock,alarm_event)
 
     #DHT (temperature)
     dht1_settings = settings['DHT1']
@@ -65,7 +76,7 @@ def automatic_sensors():
     run_dht(dht4_settings, threads, stop_event, lock)
 
     gdht_settings = settings['GDHT']
-    run_dht(gdht_settings, threads, stop_event, lock)
+    run_dht(gdht_settings, threads, stop_event, lock,gdht_queue)
 
 
     #DMS (kaypads)

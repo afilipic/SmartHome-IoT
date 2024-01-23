@@ -38,11 +38,12 @@ def on_connect(client, userdata, flags, rc):
     client.subscribe("Distance")
     client.subscribe("Door Buzzer")
     client.subscribe("Led Diode")
+    client.subscribe("Gyroscope")
     client.subscribe("GYRO")
+    client.subscribe("LCD")
 
 mqtt_client.on_connect = on_connect
 mqtt_client.on_message = lambda client, userdata, msg: save_to_db(json.loads(msg.payload.decode('utf-8')))
-
 
 def save_to_db(data):
     write_api = influxdb_client.write_api(write_options=SYNCHRONOUS)
@@ -53,7 +54,7 @@ def save_to_db(data):
         .tag("simulated", data["simulated"])
         .tag("runs_on", data["runs_on"])
         .tag("name", data["name"])
-        .field("measurement", data["value"])  # Ovo je ispravka
+        .field("measurement", data["value"])
         .time(timestamp)
     )
     print(point)
@@ -108,5 +109,5 @@ def home():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, port=8085)
 

@@ -59,10 +59,10 @@ def dht_callback(humidity, temperature, publish_event, dht_settings, code="DHTLI
         publish_event.set()
 
 
-def run_dht(settings, threads, stop_event,lock):
+def run_dht(settings, threads, stop_event,lock,queue=None):
     if settings['simulated']:
         print("Starting dht1 sumilator")
-        dht1_thread = threading.Thread(target = run_dht_simulator, args=(2, dht_callback, stop_event, publish_event, settings,lock))
+        dht1_thread = threading.Thread(target = run_dht_simulator, args=(2, dht_callback, stop_event, publish_event, settings,lock,queue))
         dht1_thread.start()
         threads.append(dht1_thread)
         print("Dht1 sumilator started")
