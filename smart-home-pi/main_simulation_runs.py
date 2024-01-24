@@ -38,8 +38,9 @@ print_lock = threading.Lock()
 gdht_queue = Queue()
 bir_queue = Queue()
 mqtt_client = mqtt.Client()
-home = Home("1111")
+home = Home("1234")
 # Ovo je sada obična funkcija, a ne lambda, kako bi mogli da prosledimo 'home' objekat
+
 def on_message(client, userdata, msg):
 
     global home
@@ -47,8 +48,8 @@ def on_message(client, userdata, msg):
     topic = msg.topic  # Dobijate topik poruke
     # Ovde ide logika za obradu poruka...
     if topic == "activate_alarm":
-        print()
-        # Obradi temperaturu
+        print("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+
     elif topic == "deactivate_alarm":
         print()
         # Obradi senzor

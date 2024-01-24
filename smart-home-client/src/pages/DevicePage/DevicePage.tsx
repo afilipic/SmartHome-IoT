@@ -5,10 +5,11 @@ import { devices } from "../../utils/data";
 import { Device } from "../../models/Device";
 import { GlobalStyle, StyledButton, StyledPanel } from "./DevicePage.styled";
 import { CustomButton } from "../HomePage/HomePage.styled";
-import { SetStateAction, useState } from "react";
+import { SetStateAction, useEffect, useState } from "react";
 import Modal from "../../components/shared/modal/Modal";
 import AlarmForm from "../../components/device/AlarmForm/AlarmForm";
 import SecurityModeForm from "../../components/device/SecurityModeForm/SecurityModeForm";
+import { Socket, io } from "socket.io-client";
 
 export default function DevicePage() {
     const navigate = useNavigate();
@@ -22,6 +23,33 @@ export default function DevicePage() {
     const [isSecurityModeModalOpen, setIsSecurityModeModalOpen] = useState(false);
     const [alarmTime, setAlarmTime] = useState("");
     const [securityCode, setSecurityCode] = useState("");
+    const [socket, setSocket] = useState<Socket | null>(null);
+
+    useEffect(() => {
+        const socket = io("http://localhost:8085");
+
+
+        socket.on("connect", () => {
+            console.log("Connected to WebSocket");
+
+            socket.emit("subscribe", "alarm");
+            socket.emit("subscribe", "clock");
+        });
+
+        socket.on("activate_alarm", (message) => {
+            console.log("Connected to activate_alarm");
+            setIsAlarmModalOpen(true);
+        });
+
+        setSocket(socket);
+
+        return () => {
+            // Disconnect the socket when the component unmounts
+            socket.disconnect();
+        };
+    }, []);
+
+
 
     // Funkcija koja će se pozvati kada se postavi alarm
     const handleSetAlarm = (time:string) => {
