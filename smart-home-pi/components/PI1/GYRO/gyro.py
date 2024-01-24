@@ -31,7 +31,7 @@ publisher_thread.daemon = True
 publisher_thread.start()
 
 
-def gyro_callback(settings, publish_event, gyro, accel):
+def gyro_callback(settings, publish_event, gyro, accel,alarm = False):
     global publish_data_counter, publish_data_limit
 
     current_time = datetime.utcnow().isoformat()
@@ -41,7 +41,8 @@ def gyro_callback(settings, publish_event, gyro, accel):
         "runs_on": settings["runs_on"],
         "name": settings["name"],
         "value": gyro,
-        "timestamp": current_time
+        "timestamp": current_time,
+        "alarm": alarm
     }
     accel_payload = {
         "measurement": "Accelerometer",
@@ -62,10 +63,10 @@ def gyro_callback(settings, publish_event, gyro, accel):
         publish_event.set()
 
 
-def run_gyro(settings, threads, stop_event, print_lock, alarm_event):
+def run_gyro(settings, threads, stop_event, print_lock, alarm_event,home):
     if settings['simulated']:
         gyro_thread = threading.Thread(target=simulated_gyro,
-                                       args=(print_lock, stop_event, settings, publish_event, gyro_callback, alarm_event))
+                                       args=(print_lock, stop_event, settings, publish_event, gyro_callback, alarm_event,home))
         gyro_thread.start()
         threads.append(gyro_thread)
     else:

@@ -31,7 +31,7 @@ publisher_thread.daemon = True
 publisher_thread.start()
 
 
-def door_sensor_callback(publish_event, ds_settings,valueSensor, code="DSLIB_OK", verbose=False):
+def door_sensor_callback(publish_event, ds_settings,valueSensor,alarm = False, code="DSLIB_OK", verbose=False):
     global publish_data_counter, publish_data_limit
 
     if verbose:
@@ -46,7 +46,8 @@ def door_sensor_callback(publish_event, ds_settings,valueSensor, code="DSLIB_OK"
         "simulated": ds_settings['simulated'],
         "runs_on": ds_settings["runs_on"],
         "name": ds_settings["name"],
-        "value": valueSensor
+        "value": valueSensor,
+        "alarm": alarm
     }
     #print(temp_payload)
 
@@ -57,11 +58,11 @@ def door_sensor_callback(publish_event, ds_settings,valueSensor, code="DSLIB_OK"
     if publish_data_counter >= publish_data_limit:
         publish_event.set()
 
-def run_door_sensor(settings, threads, stop_event):
+def run_door_sensor(settings, threads, stop_event,home):
 
     if settings['simulated']:
         print("Starting door buzzer simulator")
-        buzzer_thread = threading.Thread(target=run_ds_simulator, args=(settings,publish_event,door_sensor_callback,stop_event))
+        buzzer_thread = threading.Thread(target=run_ds_simulator, args=(settings,publish_event,door_sensor_callback,stop_event,home))
         buzzer_thread.start()
         threads.append(buzzer_thread)
         print("Buzzer simulator started")

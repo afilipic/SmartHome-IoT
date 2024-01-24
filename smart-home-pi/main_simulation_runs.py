@@ -97,7 +97,7 @@ def automatic_sensors():
 
     #GYROSCOPE
     gyro_settings = settings['GYRO']
-    run_gyro(gyro_settings, threads, stop_event, lock,alarm_event)
+    run_gyro(gyro_settings, threads, stop_event, lock,alarm_event,home)
 
     #DHT (temperature)
     dht1_settings = settings['DHT1']
