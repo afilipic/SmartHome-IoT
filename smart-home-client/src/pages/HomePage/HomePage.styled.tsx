@@ -75,7 +75,7 @@ export const CustomButton = styled.button`
   cursor: pointer;
   font-weight: bold;
   font-size: 18px;
-  margin-top: 20px;
+  margin-top: 5px;
   margin-bottom: 10px;
   transition: transform 0.5s;
 
