@@ -46,9 +46,8 @@ def on_message(client, userdata, msg):
     global home
     data = json.loads(msg.payload.decode('utf-8'))
     topic = msg.topic  # Dobijate topik poruke
-    # Ovde ide logika za obradu poruka...
     if topic == "activate_alarm":
-        print("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+        print("BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB")
 
     elif topic == "deactivate_alarm":
         print()

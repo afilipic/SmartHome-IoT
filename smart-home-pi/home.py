@@ -11,7 +11,7 @@ class Home(object):
         self.people_count = 0
         self.alarm = False
         self.alarm_pin = pin
-        self.token = "GpQ8pcMQcfkWTR-O6xY7qFgBfoBNOKZNxkHMU1l4DLpyiFoKoDznZiuIUjoOtA-2pgCszUh-aX7i0JOCBR4dig=="
+        self.token = "M1A2wRiRjKnYkHaz7VnmLT653YT-cZVqv0Br0HbhEzcYM7wP1Hvd5PcfmUpLaAZG_EGsWrhjRfueUcFAO8Qbow=="
         self.org = "FTN"
         self.url = "http://localhost:8086"
         self.bucket = "example_db"

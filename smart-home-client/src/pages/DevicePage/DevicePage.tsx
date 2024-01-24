@@ -21,37 +21,32 @@ export default function DevicePage() {
     // Držači stanja za modal i vrednost alarma
     const [isAlarmModalOpen, setIsAlarmModalOpen] = useState(false);
     const [isSecurityModeModalOpen, setIsSecurityModeModalOpen] = useState(false);
+    const [isAlarmActive, setIsAlarmActive] = useState(false);
     const [alarmTime, setAlarmTime] = useState("");
     const [securityCode, setSecurityCode] = useState("");
     const [socket, setSocket] = useState<Socket | null>(null);
 
     useEffect(() => {
         const socket = io("http://localhost:8085");
-
-
         socket.on("connect", () => {
             console.log("Connected to WebSocket");
-
             socket.emit("subscribe", "alarm");
-            socket.emit("subscribe", "clock");
         });
 
-        socket.on("activate_alarm", (message) => {
-            console.log("Connected to activate_alarm");
-            setIsAlarmModalOpen(true);
+        socket.on("alarm", (message) => {
+            console.log("Connected to alarm");
+            setIsAlarmActive(true);
         });
 
         setSocket(socket);
 
         return () => {
-            // Disconnect the socket when the component unmounts
             socket.disconnect();
         };
     }, []);
 
 
 
-    // Funkcija koja će se pozvati kada se postavi alarm
     const handleSetAlarm = (time:string) => {
         setAlarmTime(time);
         // Dodajte ovde logiku za postavljanje alarma
@@ -87,6 +82,9 @@ export default function DevicePage() {
                 <AlarmForm onSubmit={handleSetAlarm} />
             </Modal>
             <Modal isVisible={isSecurityModeModalOpen} onClose={() => setIsSecurityModeModalOpen(false)}>
+                <SecurityModeForm onSubmit={handleSetSecurityCode} />
+            </Modal>
+            <Modal isVisible={isAlarmActive} onClose={() => setIsSecurityModeModalOpen(false)}>
                 <SecurityModeForm onSubmit={handleSetSecurityCode} />
             </Modal>
         </>

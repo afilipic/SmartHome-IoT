@@ -69,6 +69,7 @@ def save_to_db(data):
         # Do something if 'alarm' is present and True
         print("ALARM BI SE MOGAO MOZDA CAK I AKTIVIRATI")
         try:
+            print("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
             socketio.emit("alarm", "aktiviraj")
         except Exception as e:
             print(e)
