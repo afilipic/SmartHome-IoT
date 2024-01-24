@@ -140,5 +140,11 @@
         "pin" : 22,
         "name" : "Bedroom Infrared Sensor",
         "runs_on" : "PI3"
+    },
+    "BRGB" : {
+        "simulated" : true,
+        "pin" : 23,
+        "name" : "Bedroom RGB Led",
+        "runs_on" : "PI3"
     }
 }

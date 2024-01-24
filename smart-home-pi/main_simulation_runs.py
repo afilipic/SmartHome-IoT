@@ -4,6 +4,9 @@ from components.PI1.UDS.uds import run_dus
 from components.PI1.PIR.pir import run_DPIR1, run_RPIR1, run_DPIR2, run_RPIR2, run_RPIR3, run_RPIR4
 from components.PI1.DHT.dht import run_dht
 from components.PI1.GYRO.gyro import run_gyro
+from components.PI3.B4SD.b4sd import run_b4sd
+from components.PI3.BIR.bir import run_bir
+from components.PI3.BRGB.brgb import run_brgb
 from settings import load_settings
 from components.PI1.MS.dms import run_dms
 from components.PI1.LCD.lcd import run_lcd
@@ -31,6 +34,7 @@ alarm_event = threading.Event()
 light_event = threading.Event()
 print_lock = threading.Lock()
 gdht_queue = Queue()
+bir_queue = Queue()
 
 def automatic_sensors():
 
@@ -97,6 +101,18 @@ def automatic_sensors():
 
     dus2_settings = settings['DUS2']
     run_dus(dus2_settings, threads, stop_event, lock,number_of_people_thread,home)
+
+    # B4SD(time)
+    b4sd_settings = settings['B4SD']
+    run_b4sd(b4sd_settings, threads, stop_event, lock)
+
+    # BIR(infra red)
+    bir_settings = settings['BIR']
+    run_bir(bir_settings, threads, stop_event, lock, bir_queue)
+
+    #BRGB(led)
+    brgb_settings = settings['BRGB']
+    run_brgb(brgb_settings, threads, stop_event, lock)
 
     for thread in threads:
         thread.join()
