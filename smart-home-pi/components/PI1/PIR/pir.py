@@ -35,7 +35,7 @@ publisher_thread.daemon = True
 publisher_thread.start()
 
 
-def door_sensor_callback(state, publish_event, pir_settings,light_event,number_of_people_thread, code="PIRLIB_OK", verbose=False):
+def door_sensor_callback(state, publish_event, pir_settings,light_event,number_of_people_thread,alarm=False, code="PIRLIB_OK", verbose=False):
     global publish_data_counter, publish_data_limit
 
     if verbose:
@@ -50,7 +50,8 @@ def door_sensor_callback(state, publish_event, pir_settings,light_event,number_o
         "simulated": pir_settings['simulated'],
         "runs_on": pir_settings["runs_on"],
         "name": pir_settings["name"],
-        "value": state
+        "value": state,
+        "alarm": alarm
     }
 
     if state and light_event:

@@ -6,11 +6,25 @@ import json
 from dotenv import load_dotenv
 import os
 from datetime import datetime
+from flask_socketio import SocketIO
+from flask_cors import CORS
 
 load_dotenv()
 
 
 app = Flask(__name__)
+# CORS(app)  # Enable CORS for all routes
+CORS(app)
+socketio = SocketIO(app, cors_allowed_origins="*")
+
+@socketio.on('connect')
+def handle_connect():
+    print('Client connected')
+
+
+@socketio.on('disconnect')
+def handle_disconnect():
+    print('Client disconnected')
 
 
 # InfluxDB Configuration
@@ -55,6 +69,10 @@ def save_to_db(data):
     write_api = influxdb_client.write_api(write_options=SYNCHRONOUS)
     timestamp = datetime.fromisoformat(data["timestamp"]) if "timestamp" in data else datetime.utcnow()
     print(data)
+    if 'alarm' in data and data['alarm']:
+        # Do something if 'alarm' is present and True
+        print("ALARM BI SE MOGAO MOZDA CAK I AKTIVIRATI")
+        socketio.emit("alarm", "aktiviraj")
     point = (
         Point(data["measurement"])
         .tag("simulated", data["simulated"])
