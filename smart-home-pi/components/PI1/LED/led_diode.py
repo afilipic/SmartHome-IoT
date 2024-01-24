@@ -31,11 +31,11 @@ publisher_thread = threading.Thread(target=publisher_task, args=(publish_event, 
 publisher_thread.daemon = True
 publisher_thread.start()
 
-led_state = 0
-def dl_callback(publish_event, dl_settings):
-    global publish_data_counter, publish_data_limit, led_state
 
-    led_state = 1 - led_state
+def dl_callback(publish_event, dl_settings,value):
+    global publish_data_counter, publish_data_limit
+
+    led_state = value
     temp_payload = {
         "measurement": "Led Diode",
         "simulated": dl_settings['simulated'],
@@ -51,11 +51,11 @@ def dl_callback(publish_event, dl_settings):
     if publish_data_counter >= publish_data_limit:
         publish_event.set()
 
-def run_dl(settings, threads, stop_event):
+def run_dl(settings, threads, stop_event,light_event):
 
     if settings['simulated']:
         print("Starting led diode simulator")
-        buzzer_thread = threading.Thread(target=run_dl_simulator, args=(settings,publish_event,dl_callback,stop_event))
+        buzzer_thread = threading.Thread(target=run_dl_simulator, args=(settings,publish_event,dl_callback,stop_event,light_event))
         buzzer_thread.start()
         threads.append(buzzer_thread)
         print("Led diode simulator started")

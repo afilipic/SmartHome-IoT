@@ -1,13 +1,18 @@
 import threading
 import keyboard
 from components.PI1.UDS.uds import run_dus
-from components.PI1.PIR.pir import run_DS1, run_DPIR1, run_RPIR1, run_DPIR2, run_RPIR2, run_RPIR3, run_RPIR4
+from components.PI1.PIR.pir import run_DPIR1, run_RPIR1, run_DPIR2, run_RPIR2, run_RPIR3, run_RPIR4
 from components.PI1.DHT.dht import run_dht
 from components.PI3.B4SD.b4sd import run_b4sd
+from components.PI1.GYRO.gyro import run_gyro
 from settings import load_settings
 from components.PI1.MS.dms import run_dms
+from components.PI1.LCD.lcd import run_lcd
+from components.PI1.LED.led_diode import run_dl
 import time
 from threading import Lock
+from queue import Queue
+from home import Home
 
 try:
     import RPi.GPIO as GPIO
@@ -17,23 +22,30 @@ except:
 
 lock = Lock()
 
+
+alarm_event = threading.Event()
+
+light_event = threading.Event()
+print_lock = threading.Lock()
+gdht_queue = Queue()
+
 def automatic_sensors():
 
-    #DS(button)
-    ds1_settings = settings['DS1']
-    run_DS1(ds1_settings, threads, stop_event, lock)
+    home = Home("1111")
+    #LED
+    dl_settings = settings['DL']
+    run_dl(dl_settings, threads, stop_event,light_event)
 
-    ds2_settings = settings['DS2']
-    run_DS1(ds2_settings, threads, stop_event, lock)
-
-
+    # LCD
+    glcd_settings = settings["GLCD"]
+    run_lcd(glcd_settings, threads, stop_event, print_lock, gdht_queue)
 
     #PIR (sensors)
     DPIR1_settings = settings['DPIR1']
-    run_DPIR1(DPIR1_settings, threads, stop_event,lock)
+    run_DPIR1(DPIR1_settings, threads, stop_event,lock,light_event)
 
     DPIR2_settings = settings['DPIR2']
-    run_DPIR2(DPIR2_settings, threads, stop_event, lock)
+    run_DPIR2(DPIR2_settings, threads, stop_event, lock,light_event)
 
     RPIR1_settings = settings['RPIR1']
     run_RPIR1(RPIR1_settings, threads, stop_event,lock)
@@ -47,7 +59,9 @@ def automatic_sensors():
     RPIR4_settings = settings['RPIR4']
     run_RPIR4(RPIR4_settings, threads, stop_event, lock)
 
-
+    #GYROSCOPE
+    gyro_settings = settings['GYRO']
+    run_gyro(gyro_settings, threads, stop_event, lock,alarm_event)
 
     #DHT (temperature)
     dht1_settings = settings['DHT1']
@@ -63,7 +77,7 @@ def automatic_sensors():
     run_dht(dht4_settings, threads, stop_event, lock)
 
     gdht_settings = settings['GDHT']
-    run_dht(gdht_settings, threads, stop_event, lock)
+    run_dht(gdht_settings, threads, stop_event, lock,gdht_queue)
 
 
     #DMS (kaypads)

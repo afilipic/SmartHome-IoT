@@ -35,7 +35,7 @@ publisher_thread.daemon = True
 publisher_thread.start()
 
 
-def door_sensor_callback(state, publish_event, pir_settings, code="PIRLIB_OK", verbose=False):
+def door_sensor_callback(state, publish_event, pir_settings,light_event, code="PIRLIB_OK", verbose=False):
     global publish_data_counter, publish_data_limit
 
     if verbose:
@@ -53,33 +53,21 @@ def door_sensor_callback(state, publish_event, pir_settings, code="PIRLIB_OK", v
         "value": state
     }
 
+    if state and light_event:
+        light_event.set()
+
     with counter_lock:
-        pir_batch.append(("Sensor " +pir_settings["name"], json.dumps(temp_payload), 0, True))
+        pir_batch.append(("Sensor", json.dumps(temp_payload), 0, True))
         publish_data_counter += 1
 
     if publish_data_counter >= publish_data_limit:
         publish_event.set()
 
-def run_DS1(settings, threads, stop_event,lock):
-    sensor = "DS1"
-    name = "Door "
-    if settings['simulated']:
-        door_sensor_thread = threading.Thread(target = run_pir_simulator, args=(settings,publish_event, door_sensor_callback, stop_event,lock))
-        door_sensor_thread.start()
-        threads.append(door_sensor_thread)
-        print(f"DS1 sensor simulation started")
-    else:
-        door_pin = settings['pin']
-        door_sensor_thread = threading.Thread(target = run_ds_loop, args=(settings,publish_event, door_sensor_callback, stop_event))
-        door_sensor_thread.start()
-        threads.append(door_sensor_thread)
-        print(f"DS1 sensor loop started")
-
-def run_DPIR1(settings, threads, stop_event,lock):
+def run_DPIR1(settings, threads, stop_event,lock,light_event):
     sensor = "DPIR1"
     name = "Door motion "
     if settings['simulated']:
-        door_sensor_thread = threading.Thread(target = run_pir_simulator, args=(settings,publish_event, door_sensor_callback, stop_event,lock))
+        door_sensor_thread = threading.Thread(target = run_pir_simulator, args=(settings,publish_event, door_sensor_callback, stop_event,lock,light_event))
         door_sensor_thread.start()
         threads.append(door_sensor_thread)
         print(f"DPIR1 sensor simulation started")
@@ -90,11 +78,11 @@ def run_DPIR1(settings, threads, stop_event,lock):
         threads.append(door_sensor_thread)
         print(f"DPIR1 sensor loop started")
 
-def run_DPIR2(settings, threads, stop_event,lock):
+def run_DPIR2(settings, threads, stop_event,lock,light_event):
     sensor = "DPIR2"
     name = "Door motion "
     if settings['simulated']:
-        door_sensor_thread = threading.Thread(target = run_pir_simulator, args=(settings,publish_event, door_sensor_callback, stop_event,lock))
+        door_sensor_thread = threading.Thread(target = run_pir_simulator, args=(settings,publish_event, door_sensor_callback, stop_event,lock,light_event))
         door_sensor_thread.start()
         threads.append(door_sensor_thread)
         print(f"DPIR2 sensor simulation started")
