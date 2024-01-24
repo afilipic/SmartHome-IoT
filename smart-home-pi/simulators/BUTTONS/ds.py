@@ -12,14 +12,14 @@ def run_ds_simulator(setting, publish_event, callback, stop_event):
             stop_event.set()
             break
         if keyboard.is_pressed("s"):
-            callback(publish_event, setting, 1)
+            callback(publish_event, setting, True)
             print("Door sensor activated!")
             time.sleep(1)
             aktivacija_alarma += 1
             if aktivacija_alarma >= 5:
                 print("Alarm is activated, evacuate!")
         else:
-            callback(publish_event, setting, 0)
+            callback(publish_event, setting, False)
             print("Door sensor not activated!")
             time.sleep(1)
             aktivacija_alarma = 0

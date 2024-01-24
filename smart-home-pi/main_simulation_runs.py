@@ -23,6 +23,10 @@ except:
 
 lock = Lock()
 
+number_of_people = 0
+alarm = False
+
+number_of_people_thread = threading.Event()
 
 alarm_event = threading.Event()
 
@@ -34,6 +38,9 @@ bir_queue = Queue()
 def automatic_sensors():
 
     home = Home("1111")
+
+
+
     #LED
     # dl_settings = settings['DL']
     # run_dl(dl_settings, threads, stop_event,light_event)
@@ -43,6 +50,7 @@ def automatic_sensors():
     # run_lcd(glcd_settings, threads, stop_event, print_lock, gdht_queue)
 
     #PIR (sensors)
+<<<<<<< HEAD
     # DPIR1_settings = settings['DPIR1']
     # run_DPIR1(DPIR1_settings, threads, stop_event,lock,light_event)
     #
@@ -60,6 +68,25 @@ def automatic_sensors():
     #
     # RPIR4_settings = settings['RPIR4']
     # run_RPIR4(RPIR4_settings, threads, stop_event, lock)
+=======
+    DPIR1_settings = settings['DPIR1']
+    run_DPIR1(DPIR1_settings, threads, stop_event,lock,light_event,number_of_people_thread)
+
+    DPIR2_settings = settings['DPIR2']
+    run_DPIR2(DPIR2_settings, threads, stop_event, lock,light_event,number_of_people_thread)
+
+    RPIR1_settings = settings['RPIR1']
+    run_RPIR1(RPIR1_settings, threads, stop_event,lock,home)
+
+    RPIR2_settings = settings['RPIR2']
+    run_RPIR2(RPIR2_settings, threads, stop_event, lock,home)
+
+    RPIR3_settings = settings['RPIR3']
+    run_RPIR3(RPIR3_settings, threads, stop_event, lock,home)
+
+    RPIR4_settings = settings['RPIR4']
+    run_RPIR4(RPIR4_settings, threads, stop_event, lock,home)
+>>>>>>> device-pi2
 
     #GYROSCOPE
     # gyro_settings = settings['GYRO']
@@ -88,6 +115,7 @@ def automatic_sensors():
 
 
     #DUS (distance)
+<<<<<<< HEAD
     # dus1_settings = settings['DUS1']
     # run_dus(dus1_settings, threads, stop_event,lock)
     #
@@ -102,6 +130,13 @@ def automatic_sensors():
     bir_settings = settings['BIR']
     run_bir(bir_settings, threads, stop_event, lock,bir_queue)
 
+=======
+    dus1_settings = settings['DUS1']
+    run_dus(dus1_settings, threads, stop_event,lock,number_of_people_thread,home)
+
+    dus2_settings = settings['DUS2']
+    run_dus(dus2_settings, threads, stop_event, lock,number_of_people_thread,home)
+>>>>>>> device-pi2
 
     for thread in threads:
         thread.join()
