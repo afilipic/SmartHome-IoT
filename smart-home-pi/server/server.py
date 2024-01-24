@@ -28,7 +28,7 @@ def handle_disconnect():
 
 
 # InfluxDB Configuration
-token = "GpQ8pcMQcfkWTR-O6xY7qFgBfoBNOKZNxkHMU1l4DLpyiFoKoDznZiuIUjoOtA-2pgCszUh-aX7i0JOCBR4dig=="
+token = "M1A2wRiRjKnYkHaz7VnmLT653YT-cZVqv0Br0HbhEzcYM7wP1Hvd5PcfmUpLaAZG_EGsWrhjRfueUcFAO8Qbow=="
 org = "FTN"
 url = "http://localhost:8086"
 bucket = "example_db"

@@ -8,7 +8,7 @@ if defined _OLD_CODEPAGE (
     "%SystemRoot%\System32\chcp.com" 65001 > nul
 )
 
-set VIRTUAL_ENV=C:\Users\Asus\Desktop\SmartHome-IoT\SmartHome-IoT\venv
+set VIRTUAL_ENV=C:\Users\Asus\Desktop\SmartHome-IoT\smart-home-pi\venv
 
 if not defined PROMPT set PROMPT=$P$G
 
