@@ -4,6 +4,7 @@ import threading
 from components.PI1.BUZZ.db import run_door_buzzer
 from components.BUTTONS.ds import run_door_sensor
 from settings import load_settings
+from home import Home
 
 try:
     import RPi.GPIO as GPIO
@@ -26,6 +27,9 @@ def menu():
     return option
 
 def options(option):
+
+    home = Home("1111")
+
     if option.lower() == 'x':
         sys.exit(0)
 
@@ -41,7 +45,7 @@ def options(option):
 
     elif option == '3':
         DS_settings = settings['DS1']
-        run_door_sensor(DS_settings, threads, stop_event)
+        run_door_sensor(DS_settings, threads, stop_event,home)
 
 
     else:

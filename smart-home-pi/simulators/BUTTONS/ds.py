@@ -3,7 +3,7 @@ import time
 import keyboard
 
 
-def run_ds_simulator(setting, publish_event, callback, stop_event):
+def run_ds_simulator(setting, publish_event, callback, stop_event,home):
     print(f"Press 's' to activate the simulated sensor or 'q' to quit.")
     aktivacija_alarma = 0
 
@@ -17,7 +17,11 @@ def run_ds_simulator(setting, publish_event, callback, stop_event):
             time.sleep(1)
             aktivacija_alarma += 1
             if aktivacija_alarma >= 5:
+                callback(publish_event, setting, True,True)
                 print("Alarm is activated, evacuate!")
+                home.set_alarm_true()
+            else:
+                callback(publish_event, setting, True)
         else:
             callback(publish_event, setting, False)
             print("Door sensor not activated!")
