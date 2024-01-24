@@ -35,6 +35,7 @@ def on_connect(client, userdata, flags, rc):
     client.subscribe("Keypads")
     client.subscribe("Time")
     client.subscribe("BIR")
+    client.subscribe("BRGB")
     client.subscribe("Distance")
     client.subscribe("Door Buzzer")
     client.subscribe("Led Diode")

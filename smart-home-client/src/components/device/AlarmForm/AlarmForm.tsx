@@ -13,7 +13,6 @@ const AlarmForm = ({ onSubmit }: AlarmFormProps) => {
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        // Call the onSubmit function with the alarmTime
         onSubmit(alarmTime);
     };
 

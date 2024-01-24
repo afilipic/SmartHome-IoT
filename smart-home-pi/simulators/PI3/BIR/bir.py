@@ -1,7 +1,8 @@
 import time
 import random
 
-Options= ["UP", "DOWN", "2", "3", "1", "4", "5", "6", "7"]
+Options= ["LEFT", "RIGHT", "UP", "DOWN", "2", "3", "1", "OK", "4", "5", "6", "7", "8", "9", "*", "0",
+                "#"]
 
 def generate_values():
     while True:
