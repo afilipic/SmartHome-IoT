@@ -2,13 +2,13 @@ import time
 
 def generate_values():
     while True:
-        n = time.ctime()[11:13] + time.ctime()[14:16]
-        s = str(n).rjust(4)
+        current_time_with_colon = time.strftime("%H:%M")
 
         if (int(time.ctime()[18:19]) % 2 == 0):
-            s = s + "."
+            current_time_with_colon = time.strftime("%H %M")
 
-        yield s
+        yield current_time_with_colon
+
 
 def run_b4sd_simulator(settings, publish_event, b4sd_callback, stop_event):
     for message in generate_values():

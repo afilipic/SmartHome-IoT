@@ -54,11 +54,11 @@ export const navbarTitle = "Smart Home";
     { type: "DUS", url: "http://localhost:3000/d/e19f86a9-66db-4f92-adc4-a20c2a76738c/iot?orgId=1&refresh=5s&from=1706041472428&to=1706041772428&viewPanel=5"},
     { type: "DS", url: "http://localhost:3000/d/e19f86a9-66db-4f92-adc4-a20c2a76738c/iot?orgId=1&refresh=5s&from=1706041371810&to=1706041671810&viewPanel=2"},
     { type: "DL", url: "http://localhost:3000/d/e19f86a9-66db-4f92-adc4-a20c2a76738c/iot?orgId=1&refresh=5s&from=1706041349239&to=1706041649239&viewPanel=1"},
-    {type: "LCD", url: ""},
+    { type: "LCD", url: "http://localhost:3000/d/e19f86a9-66db-4f92-adc4-a20c2a76738c/iot?orgId=1&refresh=1d&from=1706096610941&to=1706100210941&viewPanel=7"},
     {type: "GYRO", url: ""},
     { type: "RGB", url: "" },
     {type: "IR", url: ""},
-    {type: "4SG", url: ""},
+    { type: "4SG", url: "http://localhost:3000/d/e19f86a9-66db-4f92-adc4-a20c2a76738c/iot?orgId=1&refresh=1d&from=1706096756494&to=1706100356494&viewPanel=8"},
     { type: "MS", url: "http://localhost:3000/d/e19f86a9-66db-4f92-adc4-a20c2a76738c/iot?orgId=1&refresh=5s&from=1706041324930&to=1706041624930&viewPanel=6"},
 
 
