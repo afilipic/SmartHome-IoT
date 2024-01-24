@@ -19,7 +19,7 @@ const AlarmForm = ({ onSubmit }: AlarmFormProps) => {
 
     return (
         <StyledForm onSubmit={handleSubmit}>
-            <label htmlFor="alarmTime">Set Alarm Time:</label>
+            <h2 style={{ color: '#b4e854' }}>Set alarm time</h2>
             <StyledInput
                 type="time"
                 id="alarmTime"

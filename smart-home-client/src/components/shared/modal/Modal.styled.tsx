@@ -15,8 +15,8 @@ export const ModalOverlay = styled.article`
 
 export const ModalContainer = styled.article`
     background: #fff;
-    padding: 20px;
-    border-radius: 5px;
+    padding: 45px;
+    border-radius: 20px;
     position: relative;
 `;
 

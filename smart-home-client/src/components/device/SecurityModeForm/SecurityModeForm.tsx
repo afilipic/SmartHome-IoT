@@ -24,7 +24,7 @@ const SecurityModeForm = ({ onSubmit }: SecurityModeFormProps) => {
 
     return (
         <StyledForm onSubmit={handleSubmit}>
-            <label htmlFor="securityCode">Enter Security Code:</label>
+            <h2 style={{ color: '#b4e854' }}>Security code</h2>
             <StyledInput
                 type="text"
                 id="securityCode"

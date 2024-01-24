@@ -9,13 +9,17 @@ export const StyledForm = styled.form`
 
 export const StyledInput = styled.input`
   margin-bottom: 10px;
-  padding: 8px;
+  padding: 15px;
+  font-size:18px;
 `;
 
 export const StyledButton = styled.button`
-  background-color: #8fbc8f;
+  background-color: #213535;
   border: none;
-  border-radius: 5px;
+  color:white;
+  border-radius: 25px;
+  font-size: 18px;
   padding: 10px;
   cursor: pointer;
 `;
+
