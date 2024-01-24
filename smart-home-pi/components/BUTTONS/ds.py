@@ -42,7 +42,7 @@ def door_sensor_callback(publish_event, ds_settings,valueSensor, code="DSLIB_OK"
         print(f"Buzzer: 2s")
 
     temp_payload = {
-        "measurement": "Door Sensor",
+        "measurement": "Door sensor",
         "simulated": ds_settings['simulated'],
         "runs_on": ds_settings["runs_on"],
         "name": ds_settings["name"],

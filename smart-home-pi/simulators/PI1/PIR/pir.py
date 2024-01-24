@@ -5,10 +5,10 @@ def generate_values_sensors(settings):
     while True:
         state = random.randint(0, 1)
         if state < 0:
-            state = 0
+            state = False
             print(settings["name"]," sensor detected no movement")
         if state > 1:
-            state = 1
+            state = True
             print(settings["name"]," sensor detected movement")
         yield state
 

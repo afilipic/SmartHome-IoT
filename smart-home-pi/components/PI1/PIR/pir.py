@@ -46,7 +46,7 @@ def door_sensor_callback(state, publish_event, pir_settings,light_event, code="P
         print(f"value: {state}")
 
     temp_payload = {
-        "measurement": "Sensor",
+        "measurement": "sensor",
         "simulated": pir_settings['simulated'],
         "runs_on": pir_settings["runs_on"],
         "name": pir_settings["name"],
