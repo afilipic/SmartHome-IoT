@@ -11,8 +11,10 @@ from settings import load_settings
 from components.PI1.MS.dms import run_dms
 from components.PI1.LCD.lcd import run_lcd
 from components.PI1.LED.led_diode import run_dl
+import paho.mqtt.client as mqtt
 import time
 from threading import Lock
+import json
 from queue import Queue
 from home import Home
 
@@ -35,12 +37,40 @@ light_event = threading.Event()
 print_lock = threading.Lock()
 gdht_queue = Queue()
 bir_queue = Queue()
+mqtt_client = mqtt.Client()
+home = Home("1111")
+# Ovo je sada obična funkcija, a ne lambda, kako bi mogli da prosledimo 'home' objekat
+def on_message(client, userdata, msg):
+
+    global home
+    data = json.loads(msg.payload.decode('utf-8'))
+    topic = msg.topic  # Dobijate topik poruke
+    # Ovde ide logika za obradu poruka...
+    if topic == "activate_alarm":
+        print()
+        # Obradi temperaturu
+    elif topic == "deactivate_alarm":
+        print()
+        # Obradi senzor
+    elif topic == "schedule_alarm":
+        # Postavi alarm status
+        data = json.loads(msg.payload.decode('utf-8'))
+        #home.set_alarm(data["value"])
+
+def mqtt_client_thread():
+    mqtt_client.connect("localhost", 1883, 60)
+    mqtt_client.subscribe("activate_alarm")
+    mqtt_client.subscribe("deactivate_alarm")
+    mqtt_client.subscribe("schedule_alarm")
+    print("mqtt thread je dodat")
+    mqtt_client.loop_forever()
 
 def automatic_sensors():
+    global home
 
-    home = Home("1111")
-
-
+    mqtt_thread = threading.Thread(target=mqtt_client_thread)
+    mqtt_thread.start()
+    threads.append(mqtt_thread)
 
     #LED
     dl_settings = settings['DL']
