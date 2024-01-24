@@ -34,6 +34,7 @@ def on_connect(client, userdata, flags, rc):
     client.subscribe("Sensor")
     client.subscribe("Keypads")
     client.subscribe("Time")
+    client.subscribe("BIR")
     client.subscribe("Distance")
     client.subscribe("Door Buzzer")
     client.subscribe("Led Diode")
@@ -64,47 +65,6 @@ def save_to_db(data):
 def home():
     return f"Secret Key: {token}"
 
-# Route to store dummy data
-# @app.route('/store_data', methods=['POST'])
-# def store_data():
-#     try:
-#         data = request.get_json()
-#         store_data(data)
-#         return jsonify({"status": "success"})
-#     except Exception as e:
-#         return jsonify({"status": "error", "message": str(e)})
-#
-#
-# def handle_influx_query(query):
-#     try:
-#         query_api = influxdb_client.query_api()
-#         tables = query_api.query(query, org=org)
-#
-#         container = []
-#         for table in tables:
-#             for record in table.records:
-#                 container.append(record.values)
-#
-#         return jsonify({"status": "success", "data": container})
-#     except Exception as e:
-#         return jsonify({"status": "error", "message": str(e)})
-#
-#
-# @app.route('/simple_query', methods=['GET'])
-# def retrieve_simple_data():
-#     query = f"""from(bucket: "{bucket}")
-#     |> range(start: -10m)
-#     |> filter(fn: (r) => r._measurement == "Humidity")"""
-#     return handle_influx_query(query)
-#
-#
-# @app.route('/aggregate_query', methods=['GET'])
-# def retrieve_aggregate_data():
-#     query = f"""from(bucket: "{bucket}")
-#     |> range(start: -10m)
-#     |> filter(fn: (r) => r._measurement == "Humidity")
-#     |> mean()"""
-#     return handle_influx_query(query)
 
 
 if __name__ == '__main__':

@@ -134,5 +134,11 @@
         "simulated" : true,
         "name" : "Bedroom 4-digit segment display.",
         "runs_on" : "PI3"
+    },
+    "BIR" : {
+        "simulated" : true,
+        "pin" : 22,
+        "name" : "Bedroom Infrared Sensor",
+        "runs_on" : "PI3"
     }
 }
