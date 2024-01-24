@@ -65,7 +65,10 @@ def save_to_db(data):
     if 'alarm' in data and data['alarm']:
         # Do something if 'alarm' is present and True
         print("ALARM BI SE MOGAO MOZDA CAK I AKTIVIRATI")
-        socketio.emit("alarm", "aktiviraj")
+        try:
+            socketio.emit("alarm", "aktiviraj")
+        except Exception as e:
+            print(e)
     point = (
         Point(data["measurement"])
         .tag("simulated", data["simulated"])
@@ -81,6 +84,46 @@ def save_to_db(data):
 @app.route('/')
 def home():
     return f"Secret Key: {token}"
+
+@app.route('/activate_alarm', methods=['PUT'])
+def activate_alarm():
+    try:
+        print("ALARM SE PALI")
+        try:
+            mqtt_client.publish("activate_alarm", "")
+        except Exception as e:
+            print(e)
+        return jsonify({"response": "ALARM JE UPALJEN"})
+    except Exception as e:
+        return jsonify({"response": "GRESKA - " + str(e)})
+
+@app.route('/deactivate_alarm',methods= ["PUT"])
+def deactivate_alarm():
+    try:
+        print("ALARM SE GASI")
+        try:
+            mqtt_client.publish("deactivate_alarm", "")
+        except Exception as e:
+            print(e)
+        return jsonify({"response": "ALARM JE UGASEN"})
+    except Exception as e:
+        return jsonify({"response": "GRESKA - " + str(e)})
+
+@app.route("/schedule_alarm/<string:time>", methods=["put"])
+def schedule_alarm(time):
+    try:
+        print(time, "postavi alarm u ovoliko sati")
+        # format string-a: 2024-01-10T23:38
+        try:
+            mqtt_client.publish("schedule_alarm", time)
+            print(time)
+        except Exception as e:
+            print(e)
+        # pin treba proslediti preko mqtt simulatoru
+        return jsonify({"response": "ALARM JE POSTAVLJEN  " + time})
+    except Exception as e:
+        return jsonify({"response": "GRESKA - " + str(e)})
+
 
 # Route to store dummy data
 # @app.route('/store_data', methods=['POST'])
