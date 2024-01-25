@@ -76,6 +76,11 @@ export default function DevicePage() {
         // Provera da li je uneti PIN tačan pre nego što se promeni vrednost
         if (code.length === 4 && /^\d+$/.test(code)) {
             setSecurityCode(code);
+            DeviceService.activateAlarm().then(response => {
+                console.error(response, "ccccccccccc")
+            }).catch(error => {
+                console.error("Error: ", error)
+            })
             //setEnteredPin(code); // Čuvanje unetog PIN-a
             setPin(code); // Čuvanje novog PIN-a
             console.log("Security code set:", code);

@@ -6,7 +6,7 @@ class DeviceService {
         return customAxios.put(`/schedule_alarm/${time}`);
     }
 
-    activateAlarm(time: string) {
+    activateAlarm() {
         return customAxios.put(`/activate_alarm`);
     }
     deactivateAlarm() {
