@@ -12,6 +12,7 @@ from settings import load_settings
 from components.PI1.MS.dms import run_dms
 from components.PI2.LCD.lcd import run_lcd
 from components.PI1.LED.led_diode import run_dl
+from components.BUTTONS.ds import run_door_sensor
 import paho.mqtt.client as mqtt
 from threading import Lock
 import json
@@ -43,42 +44,47 @@ alarm_clock_event = threading.Event()
 # Ovo je sada obična funkcija, a ne lambda, kako bi mogli da prosledimo 'home' objekat
 
 def on_message(client, userdata, msg):
-
     global home
-    data = json.loads(msg.payload.decode('utf-8'))
-    topic = msg.topic  # Dobijate topik poruke
+    print("Received payload:", msg.payload.decode('utf-8'))
+    #data = json.loads(msg.payload.decode('utf-8'))
+    topic = msg.topic
+
     if topic == "activate_alarm":
-        print("BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB")
+        home.set_security_on()
+        print("Alarm Activated")
+        # Add your logic here
 
     elif topic == "deactivate_alarm":
-        print("BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB")
-        # Obradi senzor
+        print("Alarm Deactivated")
+        home.set_alarm_false()
+
     elif topic == "schedule_alarm":
-        # Postavi alarm status
-        data = json.loads(msg.payload.decode('utf-8'))
-        #home.set_alarm(data["value"])
+        print("Alarm Scheduled")
+        # home.set_alarm(data["value"]) - Uncomment and use if applicable
+
+# Define your MQTT connection callback
+def on_connect(client, userdata, flags, rc):
+    print("Connected with result code "+str(rc))
+    client.subscribe("activate_alarm")
+    client.subscribe("deactivate_alarm")
+    client.subscribe("schedule_alarm")
 
 def mqtt_client_thread():
-    mqtt_client.connect("localhost", 1883, 60)
-    mqtt_client.subscribe("activate_alarm")
-    mqtt_client.subscribe("deactivate_alarm")
-    mqtt_client.subscribe("schedule_alarm")
-    print("mqtt thread je dodat")
-    mqtt_client.loop_forever()
+    client = mqtt.Client()
+    client.on_connect = on_connect
+    client.on_message = on_message
 
-
-def listen_for_mqtt(mqtt, on_connect, on_message, home, alarm, clock):
-    # Set up the MQTT client
     try:
-        mqtt_client_simulator = mqtt.Client(userdata={'home': home, 'alarm': alarm, 'clock' : clock})
-        mqtt_client_simulator.mqtt_client_thread = on_connect
-        mqtt_client_simulator.on_message = on_message
-
-        # Connect to the MQTT broker
-        mqtt_client_simulator.connect(HOSTNAME, PORT, 60)
-        mqtt_client_simulator.loop_start()
+        client.connect("localhost", 1883, 60)  # Change host and port if needed
+        client.loop_start()
+        client.on_message()
     except Exception as e:
-        print(e)
+        print("Error connecting to MQTT broker: ", e)
+
+def listen_for_mqtt():
+    global home
+    mqtt_thread = threading.Thread(target=mqtt_client_thread)
+    mqtt_thread.start()
 
 def automatic_sensors():
     global home
@@ -87,11 +93,9 @@ def automatic_sensors():
     # mqtt_thread.start()
     # threads.append(mqtt_thread)
 
-    mqtt_thread = threading.Thread(target=listen_for_mqtt, args=(mqtt, mqtt_client_thread, on_message, home, alarm_event,
-                                                                 alarm_clock_event))
+    mqtt_thread = threading.Thread(target=mqtt_client_thread)
     mqtt_thread.start()
     threads.append(mqtt_thread)
-
     #LED
     dl_settings = settings['DL']
     run_dl(dl_settings, threads, stop_event,light_event)
@@ -99,6 +103,10 @@ def automatic_sensors():
     # LCD
     glcd_settings = settings["GLCD"]
     run_lcd(glcd_settings, threads, stop_event, print_lock, gdht_queue)
+
+    #DS
+    DS_settings = settings['DS1']
+    run_door_sensor(DS_settings, threads, stop_event, home)
 
     #PIR (sensors)
     DPIR1_settings = settings['DPIR1']

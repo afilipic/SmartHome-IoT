@@ -28,7 +28,7 @@ def handle_disconnect():
 
 
 # InfluxDB Configuration
-token = "M1A2wRiRjKnYkHaz7VnmLT653YT-cZVqv0Br0HbhEzcYM7wP1Hvd5PcfmUpLaAZG_EGsWrhjRfueUcFAO8Qbow=="
+token = "GpQ8pcMQcfkWTR-O6xY7qFgBfoBNOKZNxkHMU1l4DLpyiFoKoDznZiuIUjoOtA-2pgCszUh-aX7i0JOCBR4dig=="
 org = "FTN"
 url = "http://localhost:8086"
 bucket = "example_db"
@@ -65,7 +65,7 @@ def on_connect(client, userdata, flags, rc):
     client.subscribe("Number of people")
 
 
-
+alarm_counter = True
 
 mqtt_client.on_connect = on_connect
 
@@ -74,14 +74,12 @@ mqtt_client.on_connect = on_connect
 mqtt_client.on_message = lambda client, userdata, msg: save_to_db(json.loads(msg.payload.decode('utf-8')))
 
 def save_to_db(data):
+    global alarm_counter
     write_api = influxdb_client.write_api(write_options=SYNCHRONOUS)
     timestamp = datetime.fromisoformat(data["timestamp"]) if "timestamp" in data else datetime.utcnow()
-    print(data)
-    if 'alarm' in data and data['alarm']:
-        # Do something if 'alarm' is present and True
-        print("ALARM BI SE MOGAO MOZDA CAK I AKTIVIRATI")
+    #print(data)
+    if 'alarm' in data and data['alarm'] and alarm_counter:
         try:
-            print("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
             socketio.emit("alarm", "aktiviraj")
         except Exception as e:
             print(e)
@@ -93,7 +91,7 @@ def save_to_db(data):
         .field("measurement", data["value"])
         .time(timestamp)
     )
-    print(point)
+    #print(point)
     write_api.write(bucket=bucket, org=org, record=point)
 
 
@@ -103,9 +101,11 @@ def home():
 
 @app.route('/activate_alarm', methods=['PUT'])
 def activate_alarm():
+    global alarm_counter
     try:
         print("ALARM SE PALI")
         try:
+            alarm_counter = True
             mqtt_client.publish("activate_alarm", "")
         except Exception as e:
             print(e)
@@ -115,9 +115,11 @@ def activate_alarm():
 
 @app.route('/deactivate_alarm',methods= ["PUT"])
 def deactivate_alarm():
+    global alarm_counter
     try:
         print("ALARM SE GASI")
         try:
+            alarm_counter = False
             mqtt_client.publish("deactivate_alarm", "")
         except Exception as e:
             print(e)

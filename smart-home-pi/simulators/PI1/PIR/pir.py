@@ -24,7 +24,7 @@ def run_pir_simulator(settings,publish_event, callback, stop_event,lock,light_ev
                 if home and home.people_count == 0:
                     print("UKLJUCI ALARM")
                     home.set_alarm_true()
-                    alarm = True
+                    alarm = home.is_security_on
             time.sleep(delay)
             with lock:
                 callback(s,publish_event,settings,light_event,number_of_people_thread,alarm)

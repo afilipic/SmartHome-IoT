@@ -11,11 +11,12 @@ class Home(object):
         self.people_count = 0
         self.alarm = False
         self.alarm_pin = pin
-        self.token = "M1A2wRiRjKnYkHaz7VnmLT653YT-cZVqv0Br0HbhEzcYM7wP1Hvd5PcfmUpLaAZG_EGsWrhjRfueUcFAO8Qbow=="
+        self.token = "GpQ8pcMQcfkWTR-O6xY7qFgBfoBNOKZNxkHMU1l4DLpyiFoKoDznZiuIUjoOtA-2pgCszUh-aX7i0JOCBR4dig=="
         self.org = "FTN"
         self.url = "http://localhost:8086"
         self.bucket = "example_db"
         self.influxdb_client = InfluxDBClient(url=self.url, token=self.token, org=self.org)
+        self.is_security_on = True
 
     def more_people(self):
         self.people_count += 1
@@ -25,6 +26,8 @@ class Home(object):
             self.people_count -= 1
 
     def set_alarm_true(self):
+        if self.is_security_on == False:
+            return
         self.alarm = True
         write_api = self.influxdb_client.write_api(write_options=SYNCHRONOUS)
         timestamp = datetime.utcnow()
@@ -37,8 +40,12 @@ class Home(object):
         )
         write_api.write(bucket=self.bucket, org=self.org, record=point)
 
+    def set_security_on(self):
+        self.is_security_on = True
+
     def set_alarm_false(self):
         self.alarm = False
+        self.is_security_on = False
         write_api = self.influxdb_client.write_api(write_options=SYNCHRONOUS)
         timestamp = datetime.utcnow()
         point = (
