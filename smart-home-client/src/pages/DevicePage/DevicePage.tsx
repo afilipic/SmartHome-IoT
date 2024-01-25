@@ -10,6 +10,8 @@ import Modal from "../../components/shared/modal/Modal";
 import AlarmForm from "../../components/device/AlarmForm/AlarmForm";
 import SecurityModeForm from "../../components/device/SecurityModeForm/SecurityModeForm";
 import { Socket, io } from "socket.io-client";
+import DeclineAlarmForm from "../../components/device/DeclineAlarmForm/DeclineAlarmForm";
+import DeviceService from "../../services/DeviceService/DeviceService";
 
 export default function DevicePage() {
     const navigate = useNavigate();
@@ -25,8 +27,11 @@ export default function DevicePage() {
     const [alarmTime, setAlarmTime] = useState("");
     const [securityCode, setSecurityCode] = useState("");
     const [socket, setSocket] = useState<Socket | null>(null);
+    const [enteredPin, setEnteredPin] = useState("");
+    const [pin, setPin] = useState("1111");
 
     useEffect(() => {
+        console.log(pin);
         const socket = io("http://localhost:8085");
         socket.on("connect", () => {
             console.log("Connected to WebSocket");
@@ -36,6 +41,14 @@ export default function DevicePage() {
         socket.on("alarm", (message) => {
             console.log("Connected to alarm");
             setIsAlarmActive(true);
+        });
+        socket.on("deactivate_alarm", (message) => {
+            console.log("Disconnect to alarm");
+            setIsAlarmActive(false);
+        });
+        socket.on("activate_alarm", (message) => {
+            console.log("Activate to alarm");
+            setIsAlarmActive(false);
         });
 
         setSocket(socket);
@@ -50,14 +63,44 @@ export default function DevicePage() {
     const handleSetAlarm = (time:string) => {
         setAlarmTime(time);
         // Dodajte ovde logiku za postavljanje alarma
+        DeviceService.setScheduleAlarm(time).then(response => {
+            console.log(response.data,"bbbbbbbbb");
+            setIsAlarmModalOpen(false);
+        }).catch(error => {
+            console.error("Error: ", error)
+        })
         console.log("Alarm set:", time);
-        setIsAlarmModalOpen(false); // Zatvaranje modala nakon postavljanja alarma
     };
 
     const handleSetSecurityCode = (code: string) => {
-        setSecurityCode(code);
-        console.log("Security code set:", code);
-        setIsSecurityModeModalOpen(false);
+        // Provera da li je uneti PIN tačan pre nego što se promeni vrednost
+        if (code.length === 4 && /^\d+$/.test(code)) {
+            setSecurityCode(code);
+            //setEnteredPin(code); // Čuvanje unetog PIN-a
+            setPin(code); // Čuvanje novog PIN-a
+            console.log("Security code set:", code);
+            setIsSecurityModeModalOpen(false);
+        } else {
+            console.log("Invalid security code. Please enter a valid 4-digit PIN.");
+            // Dodajte logiku za obaveštavanje korisnika o nevažećem PIN-u
+        }
+    };
+
+    const handleActiveAlarm = (enteredPin: string) => {
+        if (enteredPin === pin) {
+            console.log("Alarm deactivated successfully.");
+            // Dodajte logiku za deaktivaciju alarma
+            DeviceService.deactivateAlarm().then(response => {
+                console.error(response,"aaaaaaaaaaaa")
+            }).catch(error => {
+                console.error("Error: ", error)
+            })
+        } else {
+            console.log("Invalid PIN. Alarm deactivation failed.");
+            // Dodajte logiku za obaveštavanje korisnika o nevažećem PIN-u
+        }
+        setIsAlarmActive(false);
+        setEnteredPin(""); // Resetujte enteredPin nakon upoređivanja
     };
 
     return (
@@ -84,8 +127,8 @@ export default function DevicePage() {
             <Modal isVisible={isSecurityModeModalOpen} onClose={() => setIsSecurityModeModalOpen(false)}>
                 <SecurityModeForm onSubmit={handleSetSecurityCode} />
             </Modal>
-            <Modal isVisible={isAlarmActive} onClose={() => setIsSecurityModeModalOpen(false)}>
-                <SecurityModeForm onSubmit={handleSetSecurityCode} />
+            <Modal isVisible={isAlarmActive} onClose={() => setIsAlarmActive(false)}>
+                <DeclineAlarmForm onSubmit={handleActiveAlarm} />
             </Modal>
         </>
         

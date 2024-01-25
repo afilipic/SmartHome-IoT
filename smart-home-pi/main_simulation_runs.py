@@ -1,5 +1,7 @@
 import threading
 import keyboard
+
+from broker_settings import HOSTNAME, PORT
 from components.PI1.UDS.uds import run_dus
 from components.PI1.PIR.pir import run_DPIR1, run_RPIR1, run_DPIR2, run_RPIR2, run_RPIR3, run_RPIR4
 from components.PI1.DHT.dht import run_dht
@@ -39,6 +41,7 @@ gdht_queue = Queue()
 bir_queue = Queue()
 mqtt_client = mqtt.Client()
 home = Home("1234")
+alarm_clock_event = threading.Event()
 # Ovo je sada obična funkcija, a ne lambda, kako bi mogli da prosledimo 'home' objekat
 
 def on_message(client, userdata, msg):
@@ -50,7 +53,7 @@ def on_message(client, userdata, msg):
         print("BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB")
 
     elif topic == "deactivate_alarm":
-        print()
+        print("BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB")
         # Obradi senzor
     elif topic == "schedule_alarm":
         # Postavi alarm status
@@ -65,10 +68,29 @@ def mqtt_client_thread():
     print("mqtt thread je dodat")
     mqtt_client.loop_forever()
 
+
+def listen_for_mqtt(mqtt, on_connect, on_message, home, alarm, clock):
+    # Set up the MQTT client
+    try:
+        mqtt_client_simulator = mqtt.Client(userdata={'home': home, 'alarm': alarm, 'clock' : clock})
+        mqtt_client_simulator.mqtt_client_thread = on_connect
+        mqtt_client_simulator.on_message = on_message
+
+        # Connect to the MQTT broker
+        mqtt_client_simulator.connect(HOSTNAME, PORT, 60)
+        mqtt_client_simulator.loop_start()
+    except Exception as e:
+        print(e)
+
 def automatic_sensors():
     global home
 
-    mqtt_thread = threading.Thread(target=mqtt_client_thread)
+    # mqtt_thread = threading.Thread(target=mqtt_client_thread)
+    # mqtt_thread.start()
+    # threads.append(mqtt_thread)
+
+    mqtt_thread = threading.Thread(target=listen_for_mqtt, args=(mqtt, mqtt_client_thread, on_message, home, alarm_event,
+                                                                 alarm_clock_event))
     mqtt_thread.start()
     threads.append(mqtt_thread)
 
@@ -123,7 +145,7 @@ def automatic_sensors():
     #DMS (kaypads)
     dms_settings = settings['DMS']
     run_dms(dms_settings, threads, stop_event,lock)
-    
+
 
     #DUS (distance)
     dus1_settings = settings['DUS1']

@@ -41,6 +41,12 @@ mqtt_client.connect("localhost", 1883, 60)
 mqtt_client.loop_start()
 
 
+def send_alarm_message_ws(topic, message):
+    try:
+        socketio.emit(topic, message)
+    except Exception as e:
+        print(e)
+
 def on_connect(client, userdata, flags, rc):
     client.subscribe("Temperature")
     client.subscribe("Humidity")
@@ -58,7 +64,13 @@ def on_connect(client, userdata, flags, rc):
     client.subscribe("LCD")
     client.subscribe("Number of people")
 
+
+
+
 mqtt_client.on_connect = on_connect
+
+
+
 mqtt_client.on_message = lambda client, userdata, msg: save_to_db(json.loads(msg.payload.decode('utf-8')))
 
 def save_to_db(data):
