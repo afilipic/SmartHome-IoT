@@ -1,20 +1,18 @@
 import threading
-import keyboard
 
 from broker_settings import HOSTNAME, PORT
 from components.PI1.UDS.uds import run_dus
 from components.PI1.PIR.pir import run_DPIR1, run_RPIR1, run_DPIR2, run_RPIR2, run_RPIR3, run_RPIR4
 from components.PI1.DHT.dht import run_dht
-from components.PI1.GYRO.gyro import run_gyro
+from components.PI2.GYRO.gyro import run_gyro
 from components.PI3.B4SD.b4sd import run_b4sd
 from components.PI3.BIR.bir import run_bir
 from components.PI3.BRGB.brgb import run_brgb
 from settings import load_settings
 from components.PI1.MS.dms import run_dms
-from components.PI1.LCD.lcd import run_lcd
+from components.PI2.LCD.lcd import run_lcd
 from components.PI1.LED.led_diode import run_dl
 import paho.mqtt.client as mqtt
-import time
 from threading import Lock
 import json
 from queue import Queue

@@ -60,6 +60,7 @@ export const navbarTitle = "Smart Home";
     { type: "IR", url: "http://localhost:3000/d/e19f86a9-66db-4f92-adc4-a20c2a76738c/iot?orgId=1&refresh=1d&from=1706111847715&to=1706112147715&viewPanel=9"},
     { type: "4SG", url: "http://localhost:3000/d/e19f86a9-66db-4f92-adc4-a20c2a76738c/iot?orgId=1&refresh=1d&from=1706096756494&to=1706100356494&viewPanel=8"},
     { type: "MS", url: "http://localhost:3000/d/e19f86a9-66db-4f92-adc4-a20c2a76738c/iot?orgId=1&refresh=5s&from=1706041324930&to=1706041624930&viewPanel=6"},
+    { type: "NoP", url: "http://localhost:3000/d/e19f86a9-66db-4f92-adc4-a20c2a76738c/iot?orgId=1&refresh=5s&from=1706153663679&to=1706153963679&viewPanel=12" },
 
 
   ]
@@ -95,7 +96,8 @@ export const navbarTitle = "Smart Home";
 
     { id : "B4SG", name: "Bedroom 4 Digit 7 Segment Display", piNumber: 3, type:"4SG", url: ""},
 
-    { id : "DMS", name: "Door Membrane Switch", piNumber: 1, type:"MS", url: ""},
+    { id: "DMS", name: "Door Membrane Switch", piNumber: 1, type: "MS", url: "" },
+    { id: "NoP", name: "Door Membrane Switch", piNumber: 1, type: "MS", url: "" },
 
 
 

@@ -1,4 +1,4 @@
-from simulators.PI1.LCD.lcd import run_lcd_simulator
+from simulators.PI2.LCD.lcd import run_lcd_simulator
 import threading
 import time
 from datetime import datetime

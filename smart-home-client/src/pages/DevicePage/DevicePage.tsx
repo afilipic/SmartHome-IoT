@@ -1,9 +1,9 @@
 import { useNavigate } from "react-router-dom";
 import DeviceList from "../../components/device/DeviceList/DeviceList";
 import { StyledPage } from "../../components/shared/styled/SharedStyles.styled";
-import { devices } from "../../utils/data";
+import { devices, urls } from "../../utils/data";
 import { Device } from "../../models/Device";
-import { GlobalStyle, StyledButton, StyledPanel } from "./DevicePage.styled";
+import { GlobalStyle, StyledButton, StyledPanel, StyledPanel2 } from "./DevicePage.styled";
 import { CustomButton } from "../HomePage/HomePage.styled";
 import { SetStateAction, useEffect, useState } from "react";
 import Modal from "../../components/shared/modal/Modal";
@@ -60,11 +60,11 @@ export default function DevicePage() {
 
 
 
-    const handleSetAlarm = (time:string) => {
+    const handleSetAlarm = (time: string) => {
         setAlarmTime(time);
         // Dodajte ovde logiku za postavljanje alarma
         DeviceService.setScheduleAlarm(time).then(response => {
-            console.log(response.data,"bbbbbbbbb");
+            console.log(response.data, "bbbbbbbbb");
             setIsAlarmModalOpen(false);
         }).catch(error => {
             console.error("Error: ", error)
@@ -91,7 +91,7 @@ export default function DevicePage() {
             console.log("Alarm deactivated successfully.");
             // Dodajte logiku za deaktivaciju alarma
             DeviceService.deactivateAlarm().then(response => {
-                console.error(response,"aaaaaaaaaaaa")
+                console.error(response, "aaaaaaaaaaaa")
             }).catch(error => {
                 console.error("Error: ", error)
             })
@@ -103,11 +103,24 @@ export default function DevicePage() {
         setEnteredPin(""); // Resetujte enteredPin nakon upoređivanja
     };
 
+    const handleNumberOfPeopleClick = () => {
+        // Extract the URL for "NoT"
+        const notUrl = "NoP";
+
+        // Check if the URL is available
+        if (notUrl) {
+            // Redirect to the URL
+            navigate(notUrl);
+        } else {
+            console.error("No URL found for NoP");
+        }
+    };
+
     return (
         <>
             <GlobalStyle />
             <StyledPage>
-                
+
                 <DeviceList
                     devices={devices}
                     onDetails={handleDetails} />
@@ -120,6 +133,12 @@ export default function DevicePage() {
                         Security mode
                     </CustomButton>
                 </StyledPanel>
+                <StyledPanel2>
+                    <h2>Other</h2>
+                    <CustomButton onClick={handleNumberOfPeopleClick}>
+                        Number of people
+                    </CustomButton>
+                </StyledPanel2>
             </StyledPage>
             <Modal isVisible={isAlarmModalOpen} onClose={() => setIsAlarmModalOpen(false)}>
                 <AlarmForm onSubmit={handleSetAlarm} />
@@ -131,6 +150,5 @@ export default function DevicePage() {
                 <DeclineAlarmForm onSubmit={handleActiveAlarm} />
             </Modal>
         </>
-        
-    )
+    );
 }

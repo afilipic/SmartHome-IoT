@@ -3,7 +3,7 @@ from datetime import datetime
 import json
 import paho.mqtt.publish as publish
 from broker_settings import HOSTNAME, PORT
-from simulators.PI1.GYRO.gyro import simulated_gyro
+from simulators.PI2.GYRO.gyro import simulated_gyro
 
 
 gyro_batch = []
