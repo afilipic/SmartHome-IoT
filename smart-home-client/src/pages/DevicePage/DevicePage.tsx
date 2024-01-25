@@ -95,6 +95,9 @@ export default function DevicePage() {
             }).catch(error => {
                 console.error("Error: ", error)
             })
+            if (socket) {
+                socket.off("alarm");
+            }
         } else {
             console.log("Invalid PIN. Alarm deactivation failed.");
             // Dodajte logiku za obaveštavanje korisnika o nevažećem PIN-u
